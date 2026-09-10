@@ -1,0 +1,22 @@
+{
+  "pages": [
+    "pages/home/home",
+    "pages/word-overview/word-overview",
+    "pages/flashcard/flashcard",
+    "pages/reader/reader",
+    "pages/article-list/article-list",
+    "pages/article-detail/article-detail",
+    "pages/notebook/notebook",
+    "pages/profile/profile"
+  ],
+  "window": {
+    "backgroundTextStyle": "dark",
+    "navigationBarBackgroundColor": "#FFFFFF",
+    "navigationBarTitleText": "TechVocab 码词",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#F8FAFC",
+    "navigationStyle": "custom"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

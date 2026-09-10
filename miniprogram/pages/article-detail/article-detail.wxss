@@ -1,0 +1,534 @@
+/** miniprogram/pages/article-detail/article-detail.wxss **/
+
+.page-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #FFFFFF;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ==================== 1. 自定义顶部导航栏 ==================== */
+.reader-nav {
+  width: 100%;
+  background-color: #FFFFFF;
+  border-bottom: 1rpx solid var(--bg-surface-subtle, #F1F5F9);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.nav-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32rpx;
+}
+
+.nav-tool-group {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.source-badge {
+  padding: 8rpx 18rpx;
+  background: var(--bg-canvas, #F8FAFC);
+  border: 1rpx solid var(--border-default, #E2E8F0);
+  border-radius: 10rpx;
+  font-size: 22rpx;
+  font-weight: 600;
+  color: var(--text-secondary, #475569);
+  max-width: 220rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.paste-btn {
+  padding: 6rpx 16rpx;
+  background: #FFFFFF;
+  border: 1rpx solid var(--border-subtle, #CBD5E1);
+  border-radius: 10rpx;
+  font-size: 22rpx;
+  font-weight: 600;
+  color: var(--text-primary, #0F172A);
+}
+
+.font-switch-btn {
+  display: flex;
+  align-items: baseline;
+  gap: 8rpx;
+  padding: 6rpx 16rpx;
+  background: var(--bg-canvas, #F8FAFC);
+  border: 1rpx solid var(--border-default, #E2E8F0);
+  border-radius: 10rpx;
+}
+
+.font-small {
+  font-size: 22rpx;
+  font-weight: 600;
+  color: var(--text-muted, #64748B);
+}
+
+.font-large {
+  font-size: 26rpx;
+  font-weight: 700;
+  color: var(--text-muted, #64748B);
+}
+
+.font-small.active,
+.font-large.active {
+  color: var(--text-primary, #0F172A);
+}
+
+.nav-placeholder {
+  width: 160rpx; /* 微信原生胶囊避让 */
+}
+
+/* ==================== 2. 文章主体阅读排版 ==================== */
+.article-scroll {
+  flex: 1;
+  height: 0;
+}
+
+.article-wrapper {
+  padding: 40rpx 48rpx;
+  display: flex;
+  flex-direction: column;
+}
+
+.article-title {
+  font-size: 40rpx;
+  font-weight: 800;
+  color: var(--text-primary, #0F172A);
+  line-height: 1.35;
+  letter-spacing: -0.5rpx;
+  margin-bottom: 16rpx;
+}
+
+.article-meta {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  font-size: 24rpx;
+  color: var(--text-subtle, #94A3B8);
+  margin-bottom: 24rpx;
+}
+
+.meta-tag {
+  padding: 4rpx 12rpx;
+  background: #EFF6FF;
+  border-radius: 6rpx;
+  font-size: 20rpx;
+  font-weight: 600;
+  color: #2563EB;
+}
+
+.divider {
+  width: 100%;
+  height: 1rpx;
+  background-color: var(--bg-surface-subtle, #F1F5F9);
+  margin-bottom: 40rpx;
+}
+
+/* 段落卡片容器 (方案 A: 段落级按需展开) */
+.paragraph-card {
+  margin-bottom: 44rpx;
+  position: relative;
+}
+
+.article-p {
+  font-size: 30rpx;
+  line-height: 56rpx;
+  color: var(--text-body, #334155);
+  letter-spacing: 0.4rpx;
+  word-wrap: break-word;
+  word-break: normal;
+}
+
+/* 放大字号模式 */
+.font-large-mode .article-p {
+  font-size: 36rpx;
+  line-height: 66rpx;
+}
+
+.font-large-mode .article-title {
+  font-size: 46rpx;
+}
+
+/* 原生英文单词 Token */
+.word-token {
+  display: inline;
+  padding: 2rpx 4rpx;
+  margin: 0 1rpx;
+  border-radius: 6rpx;
+  transition: all 0.15s ease;
+}
+
+/* 技术核心生词：轻度虚线下划线微提示 */
+.word-token.term-link {
+  font-weight: 600;
+  color: var(--text-primary, #0F172A);
+  border-bottom: 2rpx dashed #94A3B8;
+}
+
+/* 被点击选中的高亮反馈：曜石黑胶囊反白药丸 */
+.word-token.term-selected {
+  background-color: #0F172A !important;
+  color: #FFFFFF !important;
+  border-bottom: none !important;
+  font-weight: 700 !important;
+  box-shadow: 0 4rpx 10rpx rgba(15, 23, 42, 0.2);
+}
+
+.punct-token {
+  display: inline;
+}
+
+/* 正在朗读段落的高亮微光状态 */
+.paragraph-card.is-reading {
+  border-color: #0F172A;
+  box-shadow: 0 4rpx 16rpx rgba(15, 23, 42, 0.08);
+  background: #FAFCFF;
+}
+
+/* 段落操作工具条 (中文对照 + 英文原声伴读) */
+.para-actions-bar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 16rpx;
+  margin-top: 16rpx;
+}
+
+.para-action-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6rpx;
+  padding: 6rpx 18rpx;
+  background: #F8FAFC;
+  border: 1rpx solid #E2E8F0;
+  border-radius: 20rpx;
+  font-size: 22rpx;
+  color: #64748B;
+  transition: all 0.2s ease;
+}
+
+.para-action-pill.active {
+  background: #0F172A;
+  border-color: #0F172A;
+  color: #FFFFFF;
+}
+
+.para-audio-pill.playing {
+  background: #0F172A;
+  border-color: #0F172A;
+  color: #FFFFFF;
+  animation: readerAudioPulse 1.4s infinite ease-in-out;
+}
+
+@keyframes readerAudioPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(15, 23, 42, 0.35);
+  }
+  70% {
+    box-shadow: 0 0 0 12rpx rgba(15, 23, 42, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(15, 23, 42, 0);
+  }
+}
+
+.action-icon {
+  font-size: 20rpx;
+  font-weight: 700;
+}
+
+.action-text {
+  font-weight: 500;
+}
+
+/* 保留旧类名兼容性 */
+.para-trans-toggle {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 14rpx;
+}
+
+.trans-toggle-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6rpx;
+  padding: 6rpx 16rpx;
+  background: #F8FAFC;
+  border: 1rpx solid #E2E8F0;
+  border-radius: 20rpx;
+  font-size: 22rpx;
+  color: #64748B;
+  transition: all 0.2s ease;
+}
+
+.trans-toggle-pill.active {
+  background: #0F172A;
+  border-color: #0F172A;
+  color: #FFFFFF;
+}
+
+.trans-toggle-icon {
+  font-size: 20rpx;
+  font-weight: 700;
+}
+
+.trans-toggle-text {
+  font-weight: 500;
+}
+
+/* 中文精翻展开卡片 */
+.para-zh-box {
+  margin-top: 18rpx;
+  padding: 20rpx 24rpx;
+  background: #F8FAFC;
+  border-left: 6rpx solid #0F172A;
+  border-radius: 0 12rpx 12rpx 0;
+  animation: zhFadeIn 0.25s ease-out;
+}
+
+@keyframes zhFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8rpx);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.zh-header-tag {
+  display: inline-block;
+  padding: 2rpx 10rpx;
+  background: #E2E8F0;
+  border-radius: 6rpx;
+  font-size: 20rpx;
+  font-weight: 700;
+  color: #475569;
+  margin-bottom: 10rpx;
+}
+
+.para-zh-text {
+  display: block;
+  font-size: 26rpx;
+  line-height: 44rpx;
+  color: #334155;
+}
+
+/* 提示卡片 */
+.tip-card {
+  padding: 20rpx 28rpx;
+  background: var(--bg-canvas, #F8FAFC);
+  border: 1rpx solid var(--border-default, #E2E8F0);
+  border-radius: 12rpx;
+  margin-top: 20rpx;
+  margin-bottom: 40rpx;
+}
+
+.tip-text {
+  font-size: 22rpx;
+  color: var(--text-muted, #64748B);
+  line-height: 34rpx;
+}
+
+.bottom-safe-spacer {
+  height: 80rpx;
+}
+
+/* ==================== 3. 极浅半透明遮罩 ==================== */
+.drawer-mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(15, 23, 42, 0.22);
+  z-index: 20;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.drawer-mask.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ==================== 4. 底部半屏查词抽屉 (BottomSheet) ==================== */
+.lookup-drawer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #FFFFFF;
+  border-radius: 32rpx 32rpx 0 0;
+  box-shadow: 0 -12rpx 32rpx rgba(15, 23, 42, 0.12);
+  z-index: 30;
+  transform: translateY(100%);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  padding: 16rpx 40rpx 48rpx;
+}
+
+.lookup-drawer.drawer-show {
+  transform: translateY(0);
+}
+
+.drawer-handle {
+  width: 72rpx;
+  height: 8rpx;
+  background-color: var(--border-subtle, #CBD5E1);
+  border-radius: 4rpx;
+  margin: 0 auto 24rpx;
+}
+
+.drawer-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.drawer-word-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24rpx;
+}
+
+.word-info {
+  display: flex;
+  align-items: baseline;
+  gap: 20rpx;
+}
+
+.drawer-word {
+  font-size: 44rpx;
+  font-weight: 800;
+  color: var(--text-primary, #0F172A);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.drawer-phonetic {
+  font-size: 26rpx;
+  color: var(--text-muted, #64748B);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.drawer-audio-btn {
+  width: 56rpx;
+  height: 56rpx;
+  border-radius: 28rpx;
+  background: var(--bg-canvas, #F8FAFC);
+  border: 1rpx solid var(--border-default, #E2E8F0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.drawer-audio-btn.playing {
+  background: #0F172A;
+  border-color: #0F172A;
+  animation: readerAudioPulse 1.2s infinite ease-in-out;
+}
+
+.drawer-audio-btn.playing .speaker-icon {
+  border-left-color: #FFFFFF;
+}
+
+.speaker-icon {
+  width: 20rpx;
+  height: 20rpx;
+  border-left: 10rpx solid var(--text-secondary, #475569);
+  border-top: 6rpx solid transparent;
+  border-bottom: 6rpx solid transparent;
+}
+
+.drawer-def-card {
+  padding: 24rpx;
+  background: var(--bg-canvas, #F8FAFC);
+  border: 1rpx solid var(--border-default, #E2E8F0);
+  border-radius: 16rpx;
+  margin-bottom: 32rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+}
+
+.drawer-def-line {
+  display: flex;
+  align-items: baseline;
+  gap: 16rpx;
+}
+
+.def-badge {
+  font-size: 26rpx;
+  font-weight: 800;
+  color: var(--text-primary, #0F172A);
+  flex-shrink: 0;
+}
+
+.def-badge-gen {
+  font-size: 22rpx;
+  font-weight: 700;
+  color: #2563EB;
+  background: #EFF6FF;
+  padding: 2rpx 10rpx;
+  border-radius: 6rpx;
+  flex-shrink: 0;
+}
+
+.def-desc {
+  font-size: 24rpx;
+  color: var(--text-secondary, #475569);
+  line-height: 36rpx;
+}
+
+.drawer-context-line {
+  margin-top: 4rpx;
+}
+
+.drawer-context {
+  font-size: 22rpx;
+  color: var(--text-muted, #64748B);
+  line-height: 32rpx;
+}
+
+.drawer-cta-btn {
+  width: 100%;
+  height: 88rpx;
+  background: var(--text-primary, #0F172A);
+  color: #FFFFFF;
+  border-radius: 16rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28rpx;
+  font-weight: 700;
+  box-shadow: 0 4rpx 12rpx rgba(15, 23, 42, 0.15);
+  transition: opacity 0.2s;
+}
+
+.drawer-cta-btn.btn-collected {
+  background: #ECFDF5;
+  color: #059669;
+  border: 1rpx solid #A7F3D0;
+  box-shadow: none;
+}
+
+.drawer-view-card-btn {
+  margin-top: 20rpx;
+  text-align: center;
+  font-size: 24rpx;
+  font-weight: 600;
+  color: #2563EB;
+  padding: 10rpx 0;
+}

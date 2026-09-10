@@ -1,0 +1,180 @@
+/** app.wxss - 全局样式与 Design Tokens 规范 **/
+
+page {
+  /* 中性底色 */
+  --bg-canvas: #F8FAFC;
+  --bg-surface: #FFFFFF;
+  --bg-surface-subtle: #F1F5F9;
+  --bg-code-block: #0F172A;
+
+  /* 边框色彩 */
+  --border-default: #E2E8F0;
+  --border-subtle: #CBD5E1;
+  --border-active: #0F172A;
+
+  /* 核心主色与反馈 */
+  --color-primary: #0F172A;
+  --color-primary-text: #FFFFFF;
+  --color-success: #059669;
+  --color-success-bg: #ECFDF5;
+  --color-warning: #D97706;
+  --color-warning-bg: #FFFBEB;
+  --color-danger: #E11D48;
+  --color-danger-bg: #FFF1F2;
+  --color-highlight: #2563EB;
+
+  /* 文本色彩 */
+  --text-primary: #0F172A;
+  --text-body: #334155;
+  --text-secondary: #475569;
+  --text-muted: #64748B;
+  --text-subtle: #94A3B8;
+
+  /* 字体家族 */
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-mono: "JetBrains Mono", "Fira Code", "SF Mono", Menlo, Consolas, monospace;
+
+  /* 阴影 */
+  --shadow-card: 0 4rpx 12rpx rgba(15, 23, 42, 0.04);
+  --shadow-elevated: 0 8rpx 24rpx rgba(15, 23, 42, 0.08);
+
+  height: 100%;
+  width: 100%;
+  background-color: var(--bg-canvas);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+}
+
+view, text, scroll-view {
+  box-sizing: border-box;
+}
+
+/* ==================== 全局页面容器与导航基础 ==================== */
+.page-container {
+  height: 100%;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-canvas, #F8FAFC);
+  overflow: hidden;
+}
+
+.nav-bar, .reader-nav, .custom-nav {
+  width: 100%;
+  flex-shrink: 0;
+  background-color: #FFFFFF;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.nav-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32rpx;
+}
+
+/* ==================== 全局底部 4-Tab 导航栏规范 ==================== */
+.tab-bar {
+  flex-shrink: 0;
+  width: 100%;
+  height: 110rpx;
+  background-color: #FFFFFF;
+  border-top: 1rpx solid var(--border-default, #E2E8F0);
+  display: flex;
+  padding-bottom: env(safe-area-inset-bottom);
+  box-sizing: content-box;
+  z-index: 50;
+}
+
+.tab-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.tab-indicator {
+  position: absolute;
+  top: 10rpx;
+  width: 48rpx;
+  height: 6rpx;
+  border-radius: 3rpx;
+  background-color: var(--color-primary, #0F172A);
+}
+
+.tab-text {
+  font-size: 20rpx;
+  font-weight: 500;
+  color: var(--text-muted, #64748B);
+  margin-top: 6rpx;
+}
+
+.tab-text.active {
+  color: var(--color-primary, #0F172A);
+  font-weight: 700;
+}
+
+.tab-icon {
+  width: 36rpx;
+  height: 32rpx;
+  border: 2.5rpx solid var(--text-subtle, #94A3B8);
+  border-radius: 4rpx;
+  position: relative;
+}
+
+.tab-icon.active {
+  background-color: var(--color-primary, #0F172A);
+  border-color: var(--color-primary, #0F172A);
+}
+
+.badge-dot {
+  display: block;
+  width: 10rpx;
+  height: 10rpx;
+  border-radius: 50%;
+  background-color: var(--color-danger, #E11D48);
+  position: absolute;
+  top: -4rpx;
+  right: -4rpx;
+}
+
+/* ==================== 全局统一定制返回按钮规范 ==================== */
+.nav-back-btn {
+  width: 64rpx;
+  height: 60rpx;
+  background: #FFFFFF;
+  border: 1rpx solid var(--border-default, #E2E8F0);
+  border-radius: 12rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2rpx 6rpx rgba(15, 23, 42, 0.04);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+}
+
+.nav-back-btn:active, .nav-back-btn.btn-hover {
+  background-color: var(--bg-surface-subtle, #F1F5F9);
+  border-color: var(--border-subtle, #CBD5E1);
+  transform: scale(0.96);
+}
+
+.back-icon {
+  width: 16rpx;
+  height: 16rpx;
+  border-left: 3.5rpx solid var(--color-primary, #0F172A);
+  border-bottom: 3.5rpx solid var(--color-primary, #0F172A);
+  transform: rotate(45deg);
+  margin-left: 6rpx;
+  border-radius: 1rpx;
+}
+
+

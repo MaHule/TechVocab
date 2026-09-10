@@ -1,0 +1,5 @@
+Edge proxies form the frontline defense of modern cloud infrastructure, handling millions of incoming requests per second across distributed Anycast nodes. When traffic spikes suddenly, reverse proxies must efficiently route packets while isolating upstream origin servers from cascading failures.
+
+To safeguard system availability against sudden traffic surges, engineers deploy distributed rate limiting mechanisms. By enforcing token bucket and sliding window counters across edge clusters, the proxy intercepts abusive request floods and prevents memory exhaustion.
+
+In high-throughput distributed systems, graceful degradation and circuit breaker patterns prevent catastrophic service collapse. When upstream latency degrades beyond acceptable thresholds, the edge proxy automatically sheds low-priority load, maintaining system resilience under extreme pressure.

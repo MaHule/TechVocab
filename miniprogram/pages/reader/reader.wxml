@@ -1,0 +1,152 @@
+<!-- miniprogram/pages/reader/reader.wxml -->
+<!-- 文章分类页面（阅读 Tab 首页）· 严格对齐 docs/mockups/article-categories.svg -->
+<view class="page-container">
+
+  <!-- ==================== 1. 自定义顶部导航栏 ==================== -->
+  <view class="reader-nav" style="padding-top: {{statusBarHeight}}px;">
+    <view class="nav-content" style="height: {{navBarHeight}}px;">
+      <view class="nav-title-box">
+        <text class="nav-main-title">技术精读</text>
+        <text class="nav-sub-title">· 原生 RFC 与英文技术文档</text>
+      </view>
+      <!-- 微信胶囊占位 -->
+      <view class="nav-capsule-spacer"></view>
+    </view>
+  </view>
+
+  <!-- ==================== 2. 主体可滚动区域 ==================== -->
+  <scroll-view scroll-y class="content-scroll" enable-flex="true">
+    <view class="scroll-inner">
+
+      <!-- 2.1 「继续上次阅读」快速直达卡片 -->
+      <view class="hero-last-read" bindtap="onTapContinueRead" hover-class="card-hover">
+        <view class="hero-active-bar"></view>
+        <view class="hero-inner">
+          <!-- 状态行 -->
+          <view class="hero-status-row">
+            <view class="hero-badges">
+              <view class="hero-tag-last">上次阅读</view>
+              <view class="hero-tag-progress">{{lastRead.statusLabel || ('读至 ' + lastRead.readPercent + '%')}}</view>
+            </view>
+            <view class="hero-time-text">{{lastRead.lastReadTime || '最近阅读'}}</view>
+          </view>
+
+          <!-- 文章标题与元数据 -->
+          <view class="hero-article-title">{{lastRead.title}}</view>
+          <view class="hero-article-meta">{{lastRead.categoryName}} · {{lastRead.wordCount}} · {{lastRead.specTag}}</view>
+
+          <!-- 进度槽与直达按钮 -->
+          <view class="hero-bottom-action">
+            <view class="hero-bar-track">
+              <view class="hero-bar-fill" style="width: {{lastRead.readPercent}}%;"></view>
+            </view>
+            <view class="hero-cta-btn" catchtap="onTapContinueRead">
+              <text>继续阅读 ›</text>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 2.2 搜索栏 -->
+      <view class="search-container">
+        <view class="search-box">
+          <view class="search-icon"></view>
+          <input 
+            class="search-input" 
+            placeholder="搜索技术文献、RFC 规范或专业词汇..." 
+            placeholder-class="input-placeholder"
+            value="{{searchKeyword}}"
+            bindinput="onSearchInput"
+            bindconfirm="onSearchConfirm"
+          />
+          <view wx:if="{{searchKeyword}}" class="clear-btn" bindtap="onClearSearch">✕</view>
+        </view>
+      </view>
+
+      <!-- 2.3 区域标题与统计 -->
+      <view class="section-header">
+        <view class="section-left">
+          <text class="section-title">技术领域精选分类</text>
+          <view class="section-badge">{{categoriesCount}} 个领域</view>
+        </view>
+        <view class="section-right">共 {{totalArticlesCount}} 篇文献</view>
+      </view>
+
+      <!-- 2.4 分类卡片流 -->
+      <view class="categories-list">
+        <block wx:for="{{filteredCategories}}" wx:for-item="cat" wx:key="id">
+          <view class="category-card" bindtap="onSelectCategory" data-id="{{cat.id}}" hover-class="card-hover">
+            <!-- 图标徽章 -->
+            <view class="cat-icon-box" style="background: {{cat.iconBg}}; border-color: {{cat.iconStroke}};">
+              <!-- 网络拓扑图标 -->
+              <view wx:if="{{cat.iconType === 'net'}}" class="custom-icon icon-net"></view>
+              <!-- CPU / 锁图标 -->
+              <view wx:elif="{{cat.iconType === 'cpu'}}" class="custom-icon icon-cpu"></view>
+              <!-- 分布式集群图标 -->
+              <view wx:elif="{{cat.iconType === 'cluster'}}" class="custom-icon icon-cluster"></view>
+              <!-- 存储引擎图标 -->
+              <view wx:elif="{{cat.iconType === 'db'}}" class="custom-icon icon-db"></view>
+              <!-- 云原生微服务图标 -->
+              <view wx:else class="custom-icon icon-cloud"></view>
+            </view>
+
+            <!-- 文本主体 -->
+            <view class="cat-info">
+              <view class="cat-title-row">
+                <text class="cat-title">{{cat.name}}</text>
+                <text class="cat-tag">{{cat.specTag}}</text>
+              </view>
+              <view class="cat-desc">{{cat.summaryText}}</view>
+            </view>
+
+            <!-- 右侧指标与箭头 -->
+            <view class="cat-action">
+              <text class="cat-ratio" style="color: {{cat.iconColor}};">{{cat.ratioText}}</text>
+              <view class="cat-chevron"></view>
+            </view>
+          </view>
+        </block>
+
+        <!-- 搜索无结果空状态 -->
+        <view wx:if="{{filteredCategories.length === 0}}" class="empty-state">
+          <view class="empty-text">未找到与 "{{searchKeyword}}" 相关的技术领域</view>
+        </view>
+      </view>
+
+      <!-- 底部安全间距 -->
+      <view class="bottom-spacer"></view>
+
+    </view>
+  </scroll-view>
+
+  <!-- ==================== 3. 底部 4-Tab 导航栏 ==================== -->
+  <view class="tab-bar">
+    <!-- Tab 1: 学习 -->
+    <view class="tab-item" bindtap="onSwitchTab" data-tab="home">
+      <view class="tab-icon icon-learn"></view>
+      <text class="tab-text">学习</text>
+    </view>
+
+    <!-- Tab 2: 阅读 (当前激活高亮) -->
+    <view class="tab-item active" bindtap="onSwitchTab" data-tab="reader">
+      <view class="tab-indicator"></view>
+      <view class="tab-icon icon-read active"></view>
+      <text class="tab-text active">阅读</text>
+    </view>
+
+    <!-- Tab 3: 生词本 -->
+    <view class="tab-item" bindtap="onSwitchTab" data-tab="notebook">
+      <view class="tab-icon icon-notebook">
+        <text class="badge-dot"></text>
+      </view>
+      <text class="tab-text">生词本</text>
+    </view>
+
+    <!-- Tab 4: 我的 -->
+    <view class="tab-item" bindtap="onSwitchTab" data-tab="profile">
+      <view class="tab-icon icon-profile"></view>
+      <text class="tab-text">我的</text>
+    </view>
+  </view>
+
+</view>

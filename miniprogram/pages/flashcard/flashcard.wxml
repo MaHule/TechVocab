@@ -1,0 +1,339 @@
+<!-- miniprogram/pages/flashcard/flashcard.wxml -->
+<view class="page-container">
+
+  <!-- ==================== 1. 自定义顶部导航栏 ==================== -->
+  <view class="nav-bar" style="padding-top: {{statusBarHeight}}px;">
+    <view class="nav-content" style="height: {{navBarHeight}}px;">
+      <!-- 返回按钮 -->
+      <view class="nav-back-btn" bindtap="onTapBack" hover-class="btn-hover">
+        <view class="back-icon"></view>
+      </view>
+
+      <!-- 模块与单元进度 -->
+      <view class="nav-title-group">
+        <view class="nav-module-badge">{{moduleInfo.level}} · {{moduleInfo.categoryName}}</view>
+        <view class="nav-unit-text">{{unitProgressText}}</view>
+      </view>
+
+      <!-- 占位右侧对齐空间 (匹配微信胶囊) -->
+      <view class="nav-placeholder"></view>
+    </view>
+  </view>
+
+  <!-- 顶部极细进度指示条 -->
+  <view class="progress-track">
+    <view class="progress-fill" style="width: {{moduleInfo.progressPercent}}%;"></view>
+  </view>
+
+  <!-- ==================== 2. 核心单词主卡片 (3D 翻转交互) ==================== -->
+  <view class="card-wrapper" wx:if="{{!isQuizMode}}" bindtouchstart="onTouchStart" bindtouchmove="onTouchMove" bindtouchend="onTouchEnd">
+    <view class="flashcard {{isFlipped ? 'flipped' : ''}}" bindtap="onFlipCard">
+      
+      <!-- ================= 2A. 卡片正面 (自测/主动回忆) ================= -->
+      <view class="card-face card-face-front">
+        <!-- 顶栏控制点 + 协议/标签 (固定顶部) -->
+        <view class="terminal-bar">
+          <view class="mac-dots">
+            <view class="dot dot-red"></view>
+            <view class="dot dot-yellow"></view>
+            <view class="dot dot-green"></view>
+          </view>
+          <view class="terminal-bar-right">
+            <view class="spec-tag">{{word.specTag}}</view>
+            <view class="mode-pill mode-front">自测模式</view>
+          </view>
+        </view>
+
+        <!-- 正面可滚动内容容器 -->
+        <scroll-view scroll-y class="card-scroll-body" enable-flex="true" enhanced="true" show-scrollbar="false">
+          <view class="card-scroll-inner">
+            <!-- 单词大标题区 -->
+            <view class="word-hero">
+              <view class="word-text">{{word.word}}</view>
+              <view class="phonetic-row">
+                <text class="phonetic-text">{{word.phonetic}}</text>
+                <view class="pos-badge">{{word.pos}}</view>
+                
+                <!-- 发音圆钮 -->
+                <view class="audio-btn {{isPlayingAudio ? 'playing' : ''}}" catchtap="onPlayAudio">
+                  <view class="speaker-icon"></view>
+                </view>
+              </view>
+            </view>
+
+            <!-- 主动回忆引导区 (线索卡片) -->
+            <view class="recall-box">
+              <view class="recall-header">
+                <view class="recall-tag">💡 技术语境线索</view>
+              </view>
+              <view class="recall-body">
+                <text class="recall-label">典型场景：</text>
+                <text class="recall-val">{{word.typicalContext}}</text>
+              </view>
+              <view class="recall-prompt">
+                <text class="prompt-text">🤔 该词在日常常识与计算机代码中分别有何含义？轻触卡片翻转，查看双轨释义、隐喻心智模型与工程终端。</text>
+              </view>
+            </view>
+
+            <!-- 翻转行动引导条 -->
+            <view class="flip-cta-box" catchtap="onFlipCard">
+              <view class="flip-cta-btn">
+                <view class="flip-rotate-icon"></view>
+                <text class="flip-cta-text">轻触卡片查看双轨释义与反面 ↻</text>
+              </view>
+              <text class="flip-subtext">Tap card to reveal dual definitions & design metaphor</text>
+            </view>
+          </view>
+        </scroll-view>
+      </view>
+
+      <!-- ================= 2B. 卡片反面 (双轨释义/设计隐喻/代码终端) ================= -->
+      <view class="card-face card-face-back">
+        <!-- 顶栏控制点 + 协议/标签 (固定顶部) -->
+        <view class="terminal-bar">
+          <view class="mac-dots">
+            <view class="dot dot-red"></view>
+            <view class="dot dot-yellow"></view>
+            <view class="dot dot-green"></view>
+          </view>
+          <view class="terminal-bar-right">
+            <view class="spec-tag">{{word.specTag}}</view>
+            <view class="mode-pill mode-back" catchtap="onFlipCard">翻回正面 ↺</view>
+          </view>
+        </view>
+
+        <!-- 反面可滚动内容容器 (支持长代码与长释义丝滑上下滚动) -->
+        <scroll-view scroll-y class="card-scroll-body" enable-flex="true" enhanced="true" show-scrollbar="false">
+          <view class="card-scroll-inner">
+            <!-- 单词紧凑头部 -->
+            <view class="word-hero word-hero-compact">
+              <view class="word-text word-text-compact">{{word.word}}</view>
+              <view class="phonetic-row">
+                <text class="phonetic-text">{{word.phonetic}}</text>
+                <view class="pos-badge">{{word.pos}}</view>
+                
+                <view class="audio-btn {{isPlayingAudio ? 'playing' : ''}}" catchtap="onPlayAudio">
+                  <view class="speaker-icon"></view>
+                </view>
+              </view>
+            </view>
+
+            <!-- 双轨释义对照区 (通用生活常释 vs 计算机专属释义) -->
+            <view class="definition-card dual-def-card">
+              <!-- 1. 生活通用释义 -->
+              <view class="def-dual-row def-row-general" wx:if="{{word.generalDefinition}}">
+                <view class="def-badge badge-general">🏠 生活常释</view>
+                <text class="def-text-general">{{word.generalDefinition}}</text>
+              </view>
+
+              <!-- 分割线 -->
+              <view class="def-inner-divider" wx:if="{{word.generalDefinition}}"></view>
+
+              <!-- 2. 计算机专属释义 (高亮突出) -->
+              <view class="def-dual-row def-row-tech">
+                <view class="def-badge badge-tech">💻 计算机专属</view>
+                <view class="def-tech-content">
+                  <text class="def-main">{{word.techDefinition}}</text>
+                  <text class="def-detail">{{word.techDetail}}</text>
+                </view>
+              </view>
+
+              <!-- 典型工程语境 -->
+              <view class="def-context" wx:if="{{word.typicalContext}}">
+                <view class="context-label-row">
+                  <text class="context-label">⚡ 典型语境：</text>
+                  <view class="context-audio-pill {{isPlayingContextAudio ? 'playing' : ''}}" catchtap="onPlayContextAudio">
+                    <text class="mini-audio-icon">{{isPlayingContextAudio ? '⏹' : '🔊'}}</text>
+                    <text class="mini-audio-text">{{isPlayingContextAudio ? '停止' : '朗读'}}</text>
+                  </view>
+                </view>
+                <text class="context-content">{{word.typicalContext}}</text>
+              </view>
+            </view>
+
+            <!-- 3. 设计隐喻卡片 (一句话打通生活与技术的认知桥梁) -->
+            <view class="metaphor-card" wx:if="{{word.designMetaphor}}">
+              <view class="metaphor-header">
+                <text class="metaphor-badge">💡 设计隐喻 · 顿悟记忆</text>
+              </view>
+              <text class="metaphor-text">{{word.designMetaphor}}</text>
+            </view>
+
+            <!-- 4. 真实代码与工程例句终端 -->
+            <view class="code-terminal" wx:if="{{word.codeSnippet}}">
+              <view class="code-titlebar">
+                <text class="code-filename">{{word.codeSnippet.fileName}}</text>
+              </view>
+              <view class="code-content">
+                <block wx:for="{{word.codeSnippet.lines}}" wx:key="lineNum">
+                  <view class="code-line">
+                    <text class="line-num">{{item.lineNum}}</text>
+                    <view class="line-text {{item.isComment ? 'comment' : ''}}">
+                      <text>{{item.code}}</text>
+                      <text wx:if="{{item.highlight}}" class="token-highlight">{{item.highlight}}</text>
+                      <text wx:if="{{item.highlightGreen}}" class="token-green">{{item.highlightGreen}}</text>
+                      <text wx:if="{{item.suffix}}">{{item.suffix}}</text>
+                    </view>
+                  </view>
+                </block>
+              </view>
+            </view>
+
+            <!-- 翻回正面提示条 -->
+            <view class="flip-back-bar" catchtap="onFlipCard">
+              <view class="flip-back-icon"></view>
+              <text class="flip-back-text">轻触此处翻回正面自测 ↺</text>
+            </view>
+          </view>
+        </scroll-view>
+      </view>
+
+    </view>
+  </view>
+
+  <!-- ==================== 2C. 单元尾声客观真测大挑战 (选项2: 纯自然语言场景，绝无代码) ==================== -->
+  <view class="quiz-wrapper" wx:if="{{isQuizMode}}">
+    <view class="quiz-card">
+      <!-- 顶栏指示 -->
+      <view class="quiz-header">
+        <view class="quiz-badge-group">
+          <view class="quiz-stage-tag">🎯 客观实战验真</view>
+          <view class="quiz-progress-text">第 {{currentQuizIndex + 1}} / {{quizQueue.length}} 题</view>
+        </view>
+        <view class="quiz-subhint">场景选择 · 杜绝主观自欺</view>
+      </view>
+
+      <!-- 进度指示条 -->
+      <view class="quiz-progress-bar">
+        <view class="quiz-progress-fill" style="width: {{((currentQuizIndex + 1) / quizQueue.length) * 100}}%;"></view>
+      </view>
+
+      <!-- 场景题干卡片 (纯自然语言工程业务场景，无任何代码) -->
+      <view class="quiz-scenario-box">
+        <view class="scenario-tag">📌 真实工程场景：</view>
+        <text class="scenario-text">{{currentQuiz.objectiveQuiz.scenario}}</text>
+      </view>
+
+      <!-- 4 选 1 选项列表 -->
+      <view class="quiz-options-list">
+        <block wx:for="{{currentQuiz.objectiveQuiz.options}}" wx:key="label">
+          <view 
+            class="quiz-option-item {{quizAnswered ? (item.isCorrect ? 'correct' : (selectedOptionIndex === index ? 'wrong' : 'dimmed')) : (selectedOptionIndex === index ? 'selected' : '')}}"
+            bindtap="onSelectQuizOption"
+            data-index="{{index}}"
+          >
+            <view class="option-label-circle">{{item.label}}</view>
+            <text class="option-text">{{item.text}}</text>
+            <view class="option-result-icon" wx:if="{{quizAnswered}}">
+              <text wx:if="{{item.isCorrect}}">✓</text>
+              <text wx:elif="{{selectedOptionIndex === index}}">✗</text>
+            </view>
+          </view>
+        </block>
+      </view>
+
+      <!-- 答题后即时解析反馈气泡 -->
+      <view class="quiz-feedback-card {{quizIsCorrect ? 'feedback-correct' : 'feedback-wrong'}}" wx:if="{{quizAnswered}}">
+        <view class="feedback-status-row">
+          <text class="feedback-status-title">{{quizIsCorrect ? '🎉 验真通过！理解准确' : '⚠️ 判定有误，已列入回炉'}}</text>
+        </view>
+        <text class="feedback-explanation">{{currentQuiz.objectiveQuiz.explanation}}</text>
+      </view>
+
+      <!-- 下一题 / 结算大按钮 -->
+      <view class="quiz-next-bar" wx:if="{{quizAnswered}}">
+        <view class="quiz-next-btn" bindtap="onNextQuiz">
+          <text wx:if="{{currentQuizIndex + 1 === quizQueue.length}}">查看真测通关成绩 ›</text>
+          <text wx:else>进入下一题 ›</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- ==================== 3. 底部三态熟练度操作栏 (非答题模式下呈现) ==================== -->
+  <view class="action-toolbar" wx:if="{{!isQuizMode}}">
+    <!-- 按钮 1: 没记住 -->
+    <view class="action-btn btn-danger" hover-class="btn-hover" bindtap="onFeedback" data-grade="1">
+      <text class="btn-text">没记住</text>
+      <text class="shortcut-key">1</text>
+    </view>
+
+    <!-- 按钮 2: 模糊 -->
+    <view class="action-btn btn-warning" hover-class="btn-hover" bindtap="onFeedback" data-grade="2">
+      <text class="btn-text">模糊</text>
+      <text class="shortcut-key">2</text>
+    </view>
+
+    <!-- 按钮 3: 已掌握 (Primary CTA) -->
+    <view class="action-btn btn-success" hover-class="btn-hover" bindtap="onFeedback" data-grade="3">
+      <text class="btn-text">已掌握 ✓</text>
+      <text class="shortcut-key">3</text>
+    </view>
+  </view>
+
+  <!-- ==================== 4. 底部引导文案 & iOS 安全区 ==================== -->
+  <view class="footer-area" wx:if="{{!isQuizMode}}">
+    <text class="gesture-hint">← 左右滑动屏幕或轻触下方快速标记 →</text>
+    <view class="home-indicator"></view>
+  </view>
+
+  <!-- ==================== 5. 单元通关结算弹窗 (结合客观验真数据) ==================== -->
+  <view class="completion-mask {{isCompleted ? 'visible' : ''}}">
+    <view class="completion-card">
+      <view class="completion-badge">🎉 单元学习与客观真测通关</view>
+      <view class="completion-title">本次共学习 {{wordQueue.length}} 词 · 客测 {{quizStats.totalCount}} 题</view>
+      
+      <!-- 客观真测核心看板 -->
+      <view class="quiz-score-banner {{quizStats.correctCount === quizStats.totalCount ? 'score-perfect' : ''}}">
+        <view class="score-main-row">
+          <text class="score-title">🎯 客观实战真验：</text>
+          <text class="score-value">{{quizStats.correctCount}} / {{quizStats.totalCount}} 题正确</text>
+        </view>
+        <view class="score-desc">
+          <text wx:if="{{quizStats.correctCount === quizStats.totalCount}}">太棒了！已全部点亮「客观真验 ✓」认证徽章，彻底消除了认知偏差。</text>
+          <text wx:else>答错的 {{quizStats.totalCount - quizStats.correctCount}} 个词已按 SM-2 科学曲线自动重置为「客测回炉」，今晚巩固。</text>
+        </view>
+      </view>
+
+      <!-- 掌握情况看板 -->
+      <view class="completion-stats-row">
+        <view class="stat-box">
+          <text class="stat-num text-success">{{quizStats.correctCount}}</text>
+          <text class="stat-sub">客观真验 ✓</text>
+        </view>
+        <view class="stat-box">
+          <text class="stat-num text-warning">{{sessionStats.fuzzy}}</text>
+          <text class="stat-sub">初识模糊</text>
+        </view>
+        <view class="stat-box">
+          <text class="stat-num text-danger">{{quizStats.totalCount - quizStats.correctCount}}</text>
+          <text class="stat-sub">客测回炉</text>
+        </view>
+      </view>
+
+      <!-- 词汇真验明细清单 -->
+      <view class="verified-list-box" wx:if="{{quizResults.length}}">
+        <view class="verified-list-title">本组词汇客观真验明细：</view>
+        <view class="verified-tags-wrap">
+          <block wx:for="{{quizResults}}" wx:key="word">
+            <view class="v-tag {{item.isCorrect ? 'v-tag-pass' : 'v-tag-fail'}}">
+              <text class="v-word">{{item.word}}</text>
+              <text class="v-mark">{{item.isCorrect ? '真验通过 ✓' : '需回炉 ↺'}}</text>
+            </view>
+          </block>
+        </view>
+      </view>
+
+      <!-- 操作按钮 -->
+      <view class="completion-actions">
+        <view class="comp-btn btn-secondary" bindtap="onRestartSession">
+          <text>再练一组</text>
+        </view>
+        <view class="comp-btn btn-primary" bindtap="onFinishSession">
+          <text>完成并返回</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+</view>

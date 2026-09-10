@@ -1,0 +1,23 @@
+{
+  "miniprogramRoot": "miniprogram/",
+  "cloudfunctionRoot": "cloudfunctions/",
+  "projectname": "SecurityEnglish",
+  "description": "TechVocab 码词 - 专为计算机与软件工程学习者打造的专业英语学习小程序",
+  "appid": "wxdafdef295a03ed1b",
+  "setting": {
+    "urlCheck": false,
+    "es6": true,
+    "enhance": true,
+    "postcss": true,
+    "preloadBackgroundData": false,
+    "minified": false,
+    "uglifyFileName": false,
+    "useCompilerPlugins": false,
+    "minifyWXML": false
+  },
+  "compileType": "miniprogram",
+  "simulatorType": "wechat",
+  "simulatorPluginLibVersion": {},
+  "condition": {},
+  "editorSetting": {}
+}

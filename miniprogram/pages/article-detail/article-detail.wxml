@@ -1,0 +1,155 @@
+<!-- miniprogram/pages/article-detail/article-detail.wxml -->
+<view class="page-container">
+
+  <!-- ==================== 1. 自定义顶部导航栏 ==================== -->
+  <view class="reader-nav" style="padding-top: {{statusBarHeight}}px;">
+    <view class="nav-content" style="height: {{navBarHeight}}px;">
+      <!-- 返回按钮 (Chevron 尖角) -->
+      <view class="nav-back-btn" bindtap="onTapBack" hover-class="btn-hover">
+        <view class="back-icon"></view>
+      </view>
+
+      <!-- 来源标签与工具 -->
+      <view class="nav-tool-group">
+        <view class="source-badge">{{article.sourceName || '技术文献'}}</view>
+        <!-- 粘贴文本按钮 -->
+        <view class="paste-btn" bindtap="onTapPasteText">
+          <text>+ 粘贴</text>
+        </view>
+        <!-- 字号调节小工具 (A- / A+) -->
+        <view class="font-switch-btn" bindtap="onToggleFontSize">
+          <text class="font-small {{fontSizeLevel === 'normal' ? 'active' : ''}}">A</text>
+          <text class="font-large {{fontSizeLevel === 'large' ? 'active' : ''}}">A</text>
+        </view>
+      </view>
+
+      <!-- 胶囊占位留白 -->
+      <view class="nav-placeholder"></view>
+    </view>
+  </view>
+
+  <!-- ==================== 2. 文章主体阅读区域 ==================== -->
+  <scroll-view scroll-y class="article-scroll" enable-flex="true" bindscroll="onScrollArticle">
+    <view class="article-wrapper {{fontSizeLevel === 'large' ? 'font-large-mode' : ''}}">
+      
+      <!-- 文章主标题 -->
+      <view class="article-title">{{article.title}}</view>
+      
+      <!-- 辅助阅读信息 -->
+      <view class="article-meta">
+        <text>{{article.readTime}} · {{article.wordCount}} · {{article.categoryName || article.category}}</text>
+        <text wx:if="{{article.specTag}}" class="meta-tag">{{article.specTag}}</text>
+      </view>
+      
+      <view class="divider"></view>
+
+      <!-- 动态分词段落列表 (方案 A: 段落级按需展开中英对照 + 英文原声朗读) -->
+      <block wx:for="{{tokenizedParagraphs}}" wx:for-item="para" wx:key="id">
+        <view class="paragraph-card {{playingParaId === para.id ? 'is-reading' : ''}}">
+          <!-- 英文原文 (支持逐词独立点击查义与术语轻提示) -->
+          <view class="article-p">
+            <block wx:for="{{para.tokens}}" wx:for-item="tok" wx:key="tokId">
+              <text 
+                wx:if="{{tok.isWord}}" 
+                class="word-token {{tok.isTechTerm ? 'term-link' : ''}} {{selectedWord === tok.cleanWord ? 'term-selected' : ''}}"
+                bindtap="onTapWord"
+                data-word="{{tok.cleanWord}}"
+              >{{tok.text}}</text>
+              <text wx:else class="punct-token">{{tok.text}}</text>
+            </block>
+          </view>
+
+          <!-- 段落操作工具条 (中文对照 + 英文原声伴读) -->
+          <view class="para-actions-bar">
+            <!-- 译文切换按钮 -->
+            <view class="para-action-pill {{para.isZhOpen ? 'active' : ''}}" bindtap="onToggleSingleZh" data-id="{{para.id}}">
+              <text class="action-icon">{{para.isZhOpen ? '▾' : '▸'}}</text>
+              <text class="action-text">{{para.isZhOpen ? '收起中文' : '中文对照'}}</text>
+            </view>
+
+            <!-- 原声伴读按钮 -->
+            <view 
+              class="para-action-pill para-audio-pill {{playingParaId === para.id ? 'active playing' : ''}}" 
+              catchtap="onTogglePlayParagraph" 
+              data-id="{{para.id}}" 
+              data-text="{{para.rawText}}"
+            >
+              <text class="action-icon">{{playingParaId === para.id ? '⏹' : '🔊'}}</text>
+              <text class="action-text">{{playingParaId === para.id ? '朗读中 (点击停止)' : '原声朗读'}}</text>
+            </view>
+          </view>
+
+          <!-- 中文译文展开卡片 (曜石黑指示条 + 浅灰底色) -->
+          <view class="para-zh-box" wx:if="{{para.isZhOpen}}">
+            <view class="zh-header-tag">中文精翻</view>
+            <text class="para-zh-text">{{para.zhText}}</text>
+          </view>
+        </view>
+      </block>
+
+      <!-- 底部操作提示 -->
+      <view class="tip-card">
+        <text class="tip-text">💡 点击文章中任意英文单词即可查看专业释义，点词即可一键加入生词本</text>
+      </view>
+
+      <!-- 底部安全留白 -->
+      <view class="bottom-safe-spacer"></view>
+    </view>
+  </scroll-view>
+
+  <!-- ==================== 3. 极浅半透明遮罩 ==================== -->
+  <view 
+    class="drawer-mask {{isDrawerVisible ? 'visible' : ''}}" 
+    bindtap="onCloseDrawer"
+  ></view>
+
+  <!-- ==================== 4. 底部半屏点词查义抽屉 (BottomSheet) ==================== -->
+  <view class="lookup-drawer {{isDrawerVisible ? 'drawer-show' : ''}}">
+    <!-- 顶部拖拽小手柄 -->
+    <view class="drawer-handle" bindtap="onCloseDrawer"></view>
+
+    <view class="drawer-content">
+      <!-- 4.1 单词 + 音标 + 发音喇叭 -->
+      <view class="drawer-word-header">
+        <view class="word-info">
+          <text class="drawer-word">{{activeLookup.word}}</text>
+          <text class="drawer-phonetic">{{activeLookup.phonetic}}</text>
+        </view>
+        <!-- 发音按钮 -->
+        <view class="drawer-audio-btn {{isPlayingDrawerAudio ? 'playing' : ''}}" bindtap="onPlayAudio">
+          <view class="speaker-icon"></view>
+        </view>
+      </view>
+
+      <!-- 4.2 双轨释义与计算机专属第一释义区 -->
+      <view class="drawer-def-card">
+        <view class="drawer-def-line" wx:if="{{activeLookup.generalDefinition}}">
+          <text class="def-badge-gen">{{activeLookup.isTechTerm ? '生活常释' : '基础含义'}}</text>
+          <text class="def-desc">{{activeLookup.generalDefinition}}</text>
+        </view>
+        <view class="drawer-def-line">
+          <text class="def-badge">{{activeLookup.techDefinition}}</text>
+          <text class="def-desc" wx:if="{{activeLookup.techDetail}}">{{activeLookup.techDetail}}</text>
+        </view>
+        <view class="drawer-context-line" wx:if="{{activeLookup.designMetaphor}}">
+          <text class="drawer-context">{{activeLookup.designMetaphor}}</text>
+        </view>
+        <view class="drawer-context-line" wx:elif="{{activeLookup.typicalContext}}">
+          <text class="drawer-context">{{activeLookup.typicalContext}}</text>
+        </view>
+      </view>
+
+      <!-- 4.3 核心主行动按钮 -->
+      <view class="drawer-cta-btn {{isCollected ? 'btn-collected' : ''}}" bindtap="onAddToNotebook">
+        <text wx:if="{{!isCollected}}">+ 加入生词本 (纳入今晚复习队列)</text>
+        <text wx:else>已在生词本复习队列中 ✓</text>
+      </view>
+
+      <!-- 4.4 查看完整专业词卡 (直达词卡) -->
+      <view class="drawer-view-card-btn" bindtap="onViewFullCard" wx:if="{{activeLookup.isTechTerm}}">
+        <text>查看深度技术例句与代码词卡 ›</text>
+      </view>
+    </view>
+  </view>
+
+</view>

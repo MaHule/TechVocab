@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 260" width="320" height="260" fill="none">
+  <defs>
+    <!-- 核心声波律动渐变: 极光青 -> 科技蓝 -> 霓虹绿 -->
+    <linearGradient id="markWaveGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#22D3EE" />
+      <stop offset="35%" stop-color="#38BDF8" />
+      <stop offset="70%" stop-color="#6366F1" />
+      <stop offset="100%" stop-color="#10B981" />
+    </linearGradient>
+
+    <!-- 声波环外弧渐变 -->
+    <linearGradient id="markArcGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38BDF8" />
+      <stop offset="100%" stop-color="#10B981" />
+    </linearGradient>
+
+    <!-- 柔光辉光滤镜 -->
+    <filter id="markSoftGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <g filter="url(#markSoftGlow)" transform="translate(0, 5)">
+    <!-- 1. 顶部代码缩进微条 (纯几何条) -->
+    <rect x="90" y="14" width="140" height="6" rx="3" fill="rgba(255, 255, 255, 0.25)" />
+
+    <!-- 2. 7 柱声波律动原音频谱 (中心对称，中心在 x=160, y=120) -->
+    <rect x="75" y="98" width="14" height="44" rx="7" fill="url(#markWaveGrad)" />
+    <rect x="101" y="80" width="14" height="80" rx="7" fill="url(#markWaveGrad)" />
+    <rect x="127" y="60" width="14" height="120" rx="7" fill="url(#markWaveGrad)" />
+    <rect x="153" y="38" width="14" height="164" rx="7" fill="url(#markWaveGrad)" />
+    <rect x="179" y="60" width="14" height="120" rx="7" fill="url(#markWaveGrad)" />
+    <rect x="205" y="80" width="14" height="80" rx="7" fill="url(#markWaveGrad)" />
+    <rect x="231" y="98" width="14" height="44" rx="7" fill="url(#markWaveGrad)" />
+
+    <!-- 3. 双侧放射声波弧线 -->
+    <!-- 内层弧线 -->
+    <path d="M 60 72 A 95 95 0 0 0 60 168" stroke="url(#markArcGrad)" stroke-width="6.5" stroke-linecap="round" opacity="0.95" />
+    <path d="M 260 72 A 95 95 0 0 1 260 168" stroke="url(#markArcGrad)" stroke-width="6.5" stroke-linecap="round" opacity="0.95" />
+
+    <!-- 外层弧线 -->
+    <path d="M 40 56 A 122 122 0 0 0 40 184" stroke="url(#markArcGrad)" stroke-width="5" stroke-linecap="round" opacity="0.5" />
+    <path d="M 280 56 A 122 122 0 0 1 280 184" stroke="url(#markArcGrad)" stroke-width="5" stroke-linecap="round" opacity="0.5" />
+
+    <!-- 4. 底部 IDE 语法高亮代码条带 -->
+    <g transform="translate(0, 222)">
+      <rect x="48" y="0" width="46" height="7" rx="3.5" fill="#38BDF8" opacity="0.9" />
+      <rect x="102" y="0" width="102" height="7" rx="3.5" fill="rgba(255, 255, 255, 0.3)" />
+      <rect x="212" y="0" width="60" height="7" rx="3.5" fill="#10B981" opacity="0.9" />
+    </g>
+  </g>
+</svg>

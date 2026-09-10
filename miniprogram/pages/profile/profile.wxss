@@ -1,0 +1,358 @@
+/** miniprogram/pages/profile/profile.wxss **/
+
+.page-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-canvas, #F8FAFC);
+  overflow: hidden;
+}
+
+/* ==================== 1. 自定义顶部导航栏 ==================== */
+.nav-bar {
+  width: 100%;
+  background-color: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  z-index: 10;
+}
+
+.nav-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32rpx;
+}
+
+.nav-title {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: var(--text-primary, #0F172A);
+}
+
+.nav-placeholder {
+  width: 160rpx;
+}
+
+/* ==================== 2. 可滚动内容区 ==================== */
+.profile-scroll {
+  flex: 1;
+  height: 0;
+}
+
+.profile-content {
+  padding: 24rpx 32rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+/* 个人信息卡片 */
+.user-profile-card {
+  background: #FFFFFF;
+  border: 1rpx solid var(--border-default, #E2E8F0);
+  border-radius: 24rpx;
+  padding: 24rpx;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 4rpx 16rpx rgba(15, 23, 42, 0.04);
+}
+
+.user-avatar {
+  width: 88rpx;
+  height: 88rpx;
+  border-radius: 50%;
+  background-color: var(--color-primary, #0F172A);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.avatar-prompt {
+  font-size: 32rpx;
+  font-weight: 800;
+  color: #FFFFFF;
+  font-family: var(--font-mono);
+}
+
+.user-info {
+  flex: 1;
+  margin-left: 20rpx;
+}
+
+.user-nickname {
+  font-size: 32rpx;
+  font-weight: 800;
+  color: var(--text-primary, #0F172A);
+}
+
+.user-domain {
+  font-size: 22rpx;
+  color: var(--text-muted, #64748B);
+  margin-top: 6rpx;
+}
+
+.sync-badge {
+  padding: 6rpx 18rpx;
+  background-color: var(--color-success-bg, #ECFDF5);
+  border-radius: 20rpx;
+  font-size: 20rpx;
+  font-weight: 600;
+  color: var(--color-success, #059669);
+}
+
+/* ==================== 3. 核心学习看板 ==================== */
+.stats-dashboard {
+  background: #FFFFFF;
+  border: 1rpx solid var(--border-default, #E2E8F0);
+  border-radius: 24rpx;
+  padding: 28rpx 16rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  box-shadow: 0 4rpx 16rpx rgba(15, 23, 42, 0.04);
+}
+
+.stat-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+
+.stat-num {
+  font-size: 38rpx;
+  font-weight: 800;
+  color: var(--text-primary, #0F172A);
+  font-family: var(--font-mono);
+}
+
+.fire-icon {
+  font-size: 24rpx;
+}
+
+.stat-label {
+  font-size: 22rpx;
+  color: var(--text-muted, #64748B);
+  margin-top: 6rpx;
+}
+
+.stat-divider {
+  width: 1rpx;
+  height: 48rpx;
+  background-color: var(--bg-surface-subtle, #F1F5F9);
+}
+
+/* ==================== 4. 进度矩阵与设置卡片 ==================== */
+.section-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.section-title {
+  font-size: 28rpx;
+  font-weight: 700;
+  color: var(--text-primary, #0F172A);
+  margin-bottom: 14rpx;
+  padding-left: 4rpx;
+}
+
+.progress-card {
+  background: #FFFFFF;
+  border: 1rpx solid var(--border-default, #E2E8F0);
+  border-radius: 20rpx;
+  padding: 24rpx;
+  box-shadow: 0 4rpx 16rpx rgba(15, 23, 42, 0.04);
+}
+
+.module-item {
+  display: flex;
+  flex-direction: column;
+  padding: 10rpx 0;
+}
+
+.module-info-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12rpx;
+}
+
+.module-name {
+  font-size: 24rpx;
+  font-weight: 600;
+  color: var(--text-secondary, #334155);
+}
+
+.module-name.active {
+  color: var(--text-primary, #0F172A);
+  font-weight: 700;
+}
+
+.module-name.not_started {
+  color: var(--text-subtle, #94A3B8);
+}
+
+.module-status-text {
+  font-size: 22rpx;
+  font-weight: 600;
+  color: var(--text-muted, #64748B);
+  font-family: var(--font-mono);
+}
+
+.module-status-text.completed {
+  color: var(--color-success, #059669);
+}
+
+.module-status-text.active {
+  color: var(--text-primary, #0F172A);
+  font-weight: 700;
+}
+
+.module-track {
+  width: 100%;
+  height: 10rpx;
+  background-color: var(--bg-surface-subtle, #F1F5F9);
+  border-radius: 5rpx;
+  overflow: hidden;
+}
+
+.module-bar {
+  height: 100%;
+  border-radius: 5rpx;
+}
+
+.module-bar.completed {
+  background-color: var(--color-success, #059669);
+}
+
+.module-bar.active {
+  background-color: var(--color-primary, #0F172A);
+}
+
+.module-bar.pending {
+  background-color: var(--text-subtle, #94A3B8);
+}
+
+.item-divider {
+  width: 100%;
+  height: 1rpx;
+  background-color: var(--bg-canvas, #F8FAFC);
+  margin: 12rpx 0;
+}
+
+/* 设置菜单卡片 */
+.settings-card {
+  background: #FFFFFF;
+  border: 1rpx solid var(--border-default, #E2E8F0);
+  border-radius: 20rpx;
+  padding: 12rpx 24rpx;
+  box-shadow: 0 4rpx 16rpx rgba(15, 23, 42, 0.04);
+}
+
+.setting-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24rpx 0;
+}
+
+.setting-title {
+  font-size: 26rpx;
+  font-weight: 600;
+  color: var(--text-secondary, #334155);
+}
+
+.setting-right {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.setting-tag {
+  padding: 4rpx 14rpx;
+  background-color: var(--bg-surface-subtle, #F1F5F9);
+  border-radius: 8rpx;
+  font-size: 20rpx;
+  font-weight: 600;
+  color: var(--text-subtle, #94A3B8);
+}
+
+.setting-value {
+  font-size: 24rpx;
+  color: var(--text-muted, #64748B);
+}
+
+.bottom-spacer {
+  height: 100rpx;
+}
+
+/* ==================== 6. 底部 4-Tab 导航栏 ==================== */
+.tab-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 110rpx;
+  background-color: #FFFFFF;
+  border-top: 1rpx solid var(--border-default, #E2E8F0);
+  display: flex;
+  padding-bottom: env(safe-area-inset-bottom);
+  z-index: 50;
+}
+
+.tab-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.tab-indicator {
+  position: absolute;
+  top: 12rpx;
+  width: 48rpx;
+  height: 6rpx;
+  border-radius: 3rpx;
+  background-color: var(--color-primary, #0F172A);
+}
+
+.tab-text {
+  font-size: 20rpx;
+  font-weight: 500;
+  color: var(--text-muted, #64748B);
+  margin-top: 6rpx;
+}
+
+.tab-text.active {
+  color: var(--color-primary, #0F172A);
+  font-weight: 700;
+}
+
+.tab-icon {
+  width: 36rpx;
+  height: 32rpx;
+  border: 2.5rpx solid var(--text-subtle, #94A3B8);
+  border-radius: 4rpx;
+  position: relative;
+}
+
+.tab-icon.icon-profile.active {
+  background-color: var(--color-primary, #0F172A);
+  border-color: var(--color-primary, #0F172A);
+}
+
+.badge-dot {
+  display: block;
+  width: 10rpx;
+  height: 10rpx;
+  border-radius: 50%;
+  background-color: var(--color-danger, #E11D48);
+  position: absolute;
+  top: -4rpx;
+  right: -4rpx;
+}

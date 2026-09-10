@@ -1,0 +1,140 @@
+<!-- miniprogram/pages/home/home.wxml -->
+<view class="page-container">
+
+  <!-- ==================== 1. 自定义顶部导航栏 ==================== -->
+  <view class="nav-bar" style="padding-top: {{statusBarHeight}}px;">
+    <view class="nav-content" style="height: {{navBarHeight}}px;">
+      <text class="nav-brand">TechVocab 码词</text>
+      <!-- 微信胶囊避让 -->
+      <view class="nav-placeholder"></view>
+    </view>
+  </view>
+
+  <scroll-view scroll-y class="home-scroll">
+    <view class="home-content">
+
+      <!-- ==================== 2. 今日背词核心 Hero 卡片 ==================== -->
+      <view class="hero-card">
+        <!-- 连续打卡 Badge -->
+        <view class="streak-badge">
+          <text class="streak-text">🔥 连续打卡 {{todayProgress.streakDays}} 天</text>
+        </view>
+
+        <view class="hero-label">今日学习目标</view>
+
+        <!-- 词数与完成比 -->
+        <view class="hero-stats-row">
+          <view class="hero-count">
+            <text class="count-curr">{{todayProgress.current}}</text>
+            <text class="count-total"> / {{todayProgress.goal}} 词</text>
+          </view>
+          <text class="hero-percent">已完成 {{todayProgress.percent}}%</text>
+        </view>
+
+        <!-- 进度条 -->
+        <view class="hero-progress-track">
+          <view class="hero-progress-bar" style="width: {{todayProgress.percent}}%;"></view>
+        </view>
+
+        <!-- 主行动 CTA 按钮 -->
+        <view class="hero-cta-btn" bindtap="onContinueStudy">
+          <text>继续今日背词 (剩余 {{todayProgress.remain}} 词)  →</text>
+        </view>
+      </view>
+
+      <!-- ==================== 3. 待复习生词轻提醒条 ==================== -->
+      <view class="review-banner" bindtap="onGoReview">
+        <view class="banner-left">
+          <view class="banner-dot"></view>
+          <text class="banner-text">生词本有 <text class="highlight-count">{{reviewAlert.count}}</text> 个技术生词待回炉巩固</text>
+        </view>
+        <view class="banner-action-btn">
+          <text>去复习</text>
+        </view>
+      </view>
+
+      <!-- ==================== 4. 技术词库模块列表 ==================== -->
+      <view class="module-section">
+        <view class="section-header">
+          <text class="section-title">技术领域词库</text>
+          <text class="section-more" bindtap="onTapAllModules">全部词库 ›</text>
+        </view>
+
+        <view class="module-cards-group">
+          <block wx:for="{{moduleList}}" wx:key="id">
+            <view class="module-card {{item.status}}" bindtap="onSelectModule" data-item="{{item}}">
+              <view class="card-left">
+                <!-- Level 标签与模块名 -->
+                <view class="card-header-line">
+                  <view class="module-level-badge">{{item.level}}</view>
+                  <text class="module-card-name">{{item.name}}</text>
+                </view>
+                <!-- 进度描述与微进度槽 -->
+                <view class="card-progress-info">
+                  <text wx:if="{{item.status === 'completed'}}">共 {{item.total}} 词 · 100% 已掌握</text>
+                  <text wx:elif="{{item.status === 'pending'}}">共 {{item.total}} 词 · 尚未开始</text>
+                  <text wx:else>单元进度：{{item.learned}} / {{item.total}} 词 ({{item.percent}}%)</text>
+                </view>
+                <!-- 仅在进行中模块展示微进度条 -->
+                <view wx:if="{{item.status === 'active'}}" class="module-mini-track">
+                  <view class="module-mini-bar" style="width: {{item.percent}}%;"></view>
+                </view>
+              </view>
+
+              <!-- 右侧状态/操作按钮 -->
+              <view class="card-right">
+                <view class="module-action-btn btn-{{item.status}}">
+                  <text>{{item.actionText}}</text>
+                </view>
+              </view>
+            </view>
+          </block>
+        </view>
+      </view>
+
+      <!-- ==================== 5. 文章阅读快捷入口 ==================== -->
+      <view class="reader-teaser-card" bindtap="onGoReader">
+        <view class="teaser-left">
+          <view class="teaser-title">{{readerTeaser.title}}</view>
+          <view class="teaser-desc">{{readerTeaser.desc}}</view>
+        </view>
+        <view class="teaser-btn">
+          <text>{{readerTeaser.btnText}}</text>
+        </view>
+      </view>
+
+      <view class="bottom-spacer"></view>
+    </view>
+  </scroll-view>
+
+  <!-- ==================== 6. 底部 4-Tab 导航栏 ==================== -->
+  <view class="tab-bar">
+    <!-- Tab 1: 学习 (激活高亮态) -->
+    <view class="tab-item active" bindtap="onSwitchTab" data-tab="home">
+      <view class="tab-indicator"></view>
+      <view class="tab-icon icon-learn active"></view>
+      <text class="tab-text active">学习</text>
+    </view>
+
+    <!-- Tab 2: 阅读 -->
+    <view class="tab-item" bindtap="onSwitchTab" data-tab="reader">
+      <view class="tab-icon icon-read"></view>
+      <text class="tab-text">阅读</text>
+    </view>
+
+    <!-- Tab 3: 生词本 -->
+    <view class="tab-item" bindtap="onSwitchTab" data-tab="notebook">
+      <view class="tab-icon icon-notebook">
+        <text class="badge-dot"></text>
+      </view>
+      <text class="tab-text">生词本</text>
+    </view>
+
+    <!-- Tab 4: 我的 -->
+    <view class="tab-item" bindtap="onSwitchTab" data-tab="profile">
+      <view class="tab-icon icon-profile"></view>
+      <text class="tab-text">我的</text>
+    </view>
+  </view>
+
+</view>

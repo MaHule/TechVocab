@@ -1,0 +1,198 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 375 812" width="375" height="812" style="background:#F8FAFC; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'PingFang SC', 'Microsoft YaHei', sans-serif;">
+  <defs>
+    <filter id="card-shadow" x="-5%" y="-5%" width="110%" height="115%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#0F172A" flood-opacity="0.04" />
+    </filter>
+  </defs>
+
+  <!-- 背景底色 -->
+  <rect width="375" height="812" fill="#F8FAFC"/>
+
+  <!-- ==================== 1. 顶部状态栏 & 导航栏 (0 ~ 88px) ==================== -->
+  <g id="nav-bar">
+    <text x="24" y="32" font-size="12" fill="#64748B" font-weight="500">9:41</text>
+    <rect x="318" y="22" width="22" height="11" rx="3" fill="none" stroke="#64748B" stroke-width="1.5"/>
+    <rect x="320" y="24" width="15" height="7" rx="1.5" fill="#64748B"/>
+    <circle cx="304" cy="27" r="3" fill="#64748B"/>
+
+    <!-- 页面大标题 -->
+    <text x="16" y="68" font-size="18" font-weight="700" fill="#0F172A">个人中心</text>
+
+    <!-- 微信小程序胶囊 -->
+    <rect x="282" y="46" width="80" height="30" rx="15" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1"/>
+    <circle cx="305" cy="61" r="3.5" fill="#64748B"/>
+    <circle cx="312" cy="61" r="1.5" fill="#94A3B8"/>
+    <circle cx="337" cy="61" r="5" fill="none" stroke="#64748B" stroke-width="1.5"/>
+  </g>
+
+  <!-- ==================== 2. 用户信息卡片 (88 ~ 170px) ==================== -->
+  <g id="user-profile-card" transform="translate(16, 88)" filter="url(#card-shadow)">
+    <rect width="343" height="78" rx="12" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1"/>
+
+    <!-- 用户头像 (极客代码终端图标) -->
+    <circle cx="42" cy="39" r="24" fill="#0F172A"/>
+    <text x="42" y="44" font-size="16" font-weight="800" fill="#FFFFFF" text-anchor="middle" font-family="'JetBrains Mono', monospace">&gt;_</text>
+
+    <!-- 昵称与目标 -->
+    <text x="78" y="34" font-size="16" font-weight="800" fill="#0F172A">Dev_Learner</text>
+    <text x="78" y="52" font-size="11" fill="#64748B">攻坚领域: Level 2 计算机网络</text>
+
+    <!-- 云同步状态 -->
+    <rect x="238" y="28" width="92" height="22" rx="11" fill="#ECFDF5"/>
+    <text x="284" y="43" font-size="10" font-weight="600" fill="#059669" text-anchor="middle">云端同步中 ✓</text>
+  </g>
+
+  <!-- ==================== 3. 学习核心数据看板 (178 ~ 276px) ==================== -->
+  <g id="stats-dashboard" transform="translate(16, 178)" filter="url(#card-shadow)">
+    <rect width="343" height="88" rx="12" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1"/>
+
+    <!-- 4 列数据单元 -->
+    <!-- Col 1: 已掌握 -->
+    <g transform="translate(16, 20)">
+      <text x="26" y="24" font-size="20" font-weight="800" fill="#0F172A" text-anchor="middle">238</text>
+      <text x="26" y="44" font-size="11" fill="#64748B" text-anchor="middle">已掌握词</text>
+    </g>
+
+    <line x1="90" y1="24" x2="90" y2="64" stroke="#F1F5F9" stroke-width="1"/>
+
+    <!-- Col 2: 连续打卡 -->
+    <g transform="translate(95, 20)">
+      <text x="35" y="24" font-size="20" font-weight="800" fill="#0F172A" text-anchor="middle">5 <tspan font-size="12">🔥</tspan></text>
+      <text x="35" y="44" font-size="11" fill="#64748B" text-anchor="middle">连续天数</text>
+    </g>
+
+    <line x1="175" y1="24" x2="175" y2="64" stroke="#F1F5F9" stroke-width="1"/>
+
+    <!-- Col 3: 生词本 -->
+    <g transform="translate(180, 20)">
+      <text x="35" y="24" font-size="20" font-weight="800" fill="#0F172A" text-anchor="middle">24</text>
+      <text x="35" y="44" font-size="11" fill="#64748B" text-anchor="middle">生词收集</text>
+    </g>
+
+    <line x1="260" y1="24" x2="260" y2="64" stroke="#F1F5F9" stroke-width="1"/>
+
+    <!-- Col 4: 已读文档 -->
+    <g transform="translate(265, 20)">
+      <text x="35" y="24" font-size="20" font-weight="800" fill="#0F172A" text-anchor="middle">12</text>
+      <text x="35" y="44" font-size="11" fill="#64748B" text-anchor="middle">已读篇数</text>
+    </g>
+  </g>
+
+  <!-- ==================== 4. 技术领域掌握度进度列表 (278 ~ 490px) ==================== -->
+  <g id="progress-matrix" transform="translate(16, 278)">
+    <text x="0" y="20" font-size="14" font-weight="700" fill="#0F172A">技术领域词库进度</text>
+
+    <!-- 卡片容器 -->
+    <g transform="translate(0, 30)" filter="url(#card-shadow)">
+      <rect width="343" height="186" rx="10" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1"/>
+
+      <!-- Item 1: Level 1 编程基础 (已通关) -->
+      <g transform="translate(16, 16)">
+        <text x="0" y="14" font-size="12" font-weight="700" fill="#334155">Level 1 · 编程基础 &amp; 高频报错</text>
+        <text x="311" y="14" font-size="11" font-weight="600" fill="#059669" text-anchor="end">180 / 180 (100%) ✓</text>
+        <rect x="0" y="22" width="311" height="5" rx="2.5" fill="#F1F5F9"/>
+        <rect x="0" y="22" width="311" height="5" rx="2.5" fill="#059669"/>
+      </g>
+
+      <line x1="16" y1="56" x2="327" y2="56" stroke="#F8FAFC" stroke-width="1"/>
+
+      <!-- Item 2: Level 2 计算机网络 (攻坚中) -->
+      <g transform="translate(16, 68)">
+        <text x="0" y="14" font-size="12" font-weight="700" fill="#0F172A">Level 2 · 计算机网络 (TCP / HTTP)</text>
+        <text x="311" y="14" font-size="11" font-weight="700" fill="#0F172A" text-anchor="end">45 / 120 (37%)</text>
+        <rect x="0" y="22" width="311" height="5" rx="2.5" fill="#F1F5F9"/>
+        <rect x="0" y="22" width="115" height="5" rx="2.5" fill="#0F172A"/>
+      </g>
+
+      <line x1="16" y1="108" x2="327" y2="108" stroke="#F8FAFC" stroke-width="1"/>
+
+      <!-- Item 3: Level 2 操作系统 -->
+      <g transform="translate(16, 120)">
+        <text x="0" y="14" font-size="12" font-weight="500" fill="#64748B">Level 2 · 操作系统与并发编程</text>
+        <text x="311" y="14" font-size="11" font-weight="500" fill="#64748B" text-anchor="end">12 / 100 (12%)</text>
+        <rect x="0" y="22" width="311" height="5" rx="2.5" fill="#F1F5F9"/>
+        <rect x="0" y="22" width="37" height="5" rx="2.5" fill="#94A3B8"/>
+      </g>
+
+      <!-- Item 4: Level 2 数据结构与算法 -->
+      <g transform="translate(16, 160)">
+        <text x="0" y="14" font-size="12" font-weight="500" fill="#94A3B8">Level 2 · 数据结构与核心算法</text>
+        <text x="311" y="14" font-size="11" font-weight="500" fill="#94A3B8" text-anchor="end">0 / 80 (0%)</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- ==================== 5. 系统设置与功能菜单 (508 ~ 710px) ==================== -->
+  <g id="settings-menu" transform="translate(16, 508)" filter="url(#card-shadow)">
+    <rect width="343" height="196" rx="10" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1"/>
+
+    <!-- Row 1: 每日目标 -->
+    <g transform="translate(16, 12)" cursor="pointer">
+      <text x="0" y="22" font-size="13" font-weight="600" fill="#334155">每日学习目标</text>
+      <text x="311" y="22" font-size="12" font-weight="500" fill="#64748B" text-anchor="end">20 词 / 天 ›</text>
+    </g>
+
+    <line x1="16" y1="48" x2="327" y2="48" stroke="#F1F5F9" stroke-width="1"/>
+
+    <!-- Row 2: 复习推送提醒 -->
+    <g transform="translate(16, 60)" cursor="pointer">
+      <text x="0" y="22" font-size="13" font-weight="600" fill="#334155">每日回炉复习提醒</text>
+      <text x="311" y="22" font-size="12" font-weight="500" fill="#64748B" text-anchor="end">每天 21:00 ›</text>
+    </g>
+
+    <line x1="16" y1="96" x2="327" y2="96" stroke="#F1F5F9" stroke-width="1"/>
+
+    <!-- Row 3: 词库自定义导入 (敬请期待) -->
+    <g transform="translate(16, 108)" cursor="pointer">
+      <text x="0" y="22" font-size="13" font-weight="600" fill="#334155">自定义词单导入</text>
+      <rect x="238" y="10" width="56" height="18" rx="4" fill="#F1F5F9"/>
+      <text x="266" y="22" font-size="10" font-weight="600" fill="#94A3B8" text-anchor="middle">Beta ›</text>
+    </g>
+
+    <line x1="16" y1="144" x2="327" y2="144" stroke="#F1F5F9" stroke-width="1"/>
+
+    <!-- Row 4: 关于 TechVocab -->
+    <g transform="translate(16, 156)" cursor="pointer">
+      <text x="0" y="22" font-size="13" font-weight="600" fill="#334155">关于 TechVocab 码词</text>
+      <text x="311" y="22" font-size="12" font-weight="500" fill="#94A3B8" text-anchor="end">v1.0.0 MVP ›</text>
+    </g>
+  </g>
+
+  <!-- ==================== 6. 底部 TabBar 导航 (H: 84) ==================== -->
+  <g id="tab-bar" transform="translate(0, 728)">
+    <rect width="375" height="84" fill="#FFFFFF"/>
+    <line x1="0" y1="0" x2="375" y2="0" stroke="#E2E8F0" stroke-width="1"/>
+
+    <!-- Tab 1: 学习 -->
+    <g transform="translate(0, 0)">
+      <rect x="37" y="20" width="20" height="18" rx="2" fill="none" stroke="#94A3B8" stroke-width="1.5"/>
+      <text x="47" y="52" font-size="10" font-weight="500" fill="#64748B" text-anchor="middle">学习</text>
+    </g>
+
+    <!-- Tab 2: 阅读 -->
+    <g transform="translate(94, 0)">
+      <rect x="37" y="20" width="20" height="18" rx="2" fill="none" stroke="#94A3B8" stroke-width="1.5"/>
+      <line x1="41" y1="26" x2="53" y2="26" stroke="#94A3B8" stroke-width="1.5"/>
+      <line x1="41" y1="31" x2="49" y2="31" stroke="#94A3B8" stroke-width="1.5"/>
+      <text x="47" y="52" font-size="10" font-weight="500" fill="#64748B" text-anchor="middle">阅读</text>
+    </g>
+
+    <!-- Tab 3: 生词本 -->
+    <g transform="translate(188, 0)">
+      <rect x="37" y="20" width="20" height="18" rx="2" fill="none" stroke="#94A3B8" stroke-width="1.5"/>
+      <text x="47" y="34" font-size="11" font-weight="700" fill="#94A3B8" text-anchor="middle">A</text>
+      <circle cx="55" cy="20" r="3" fill="#E11D48"/>
+      <text x="47" y="52" font-size="10" font-weight="500" fill="#64748B" text-anchor="middle">生词本</text>
+    </g>
+
+    <!-- Tab 4: 我的 (当前激活态) -->
+    <g transform="translate(281, 0)">
+      <rect x="27" y="10" width="40" height="4" rx="2" fill="#0F172A"/>
+      <circle cx="47" cy="26" r="6" fill="#0F172A"/>
+      <path d="M37,39 C37,34 42,34 47,34 C52,34 57,34 57,39" fill="#0F172A"/>
+      <text x="47" y="52" font-size="10" font-weight="700" fill="#0F172A" text-anchor="middle">我的</text>
+    </g>
+
+    <rect x="120" y="70" width="135" height="4" rx="2" fill="#CBD5E1"/>
+  </g>
+</svg>

@@ -1,0 +1,232 @@
+<!-- miniprogram/pages/word-overview/word-overview.wxml -->
+<view class="page-container">
+
+  <!-- ==================== 1. 自定义顶部导航栏 ==================== -->
+  <view class="nav-bar" style="padding-top: {{statusBarHeight}}px;">
+    <view class="nav-content" style="height: {{navBarHeight}}px;">
+      <!-- 返回上一级按钮 -->
+      <view class="nav-back-btn" bindtap="onTapBack" hover-class="btn-hover">
+        <view class="back-icon"></view>
+      </view>
+      <!-- 模块大标题 -->
+      <text class="nav-title">{{module.name || '技术词库总览'}}</text>
+      <!-- 微信小程序胶囊避让留白 -->
+      <view class="nav-placeholder"></view>
+    </view>
+  </view>
+
+  <!-- ==================== 2. 可滚动主体 ==================== -->
+  <scroll-view scroll-y class="overview-scroll" enable-back-to-top>
+    <view class="overview-content">
+
+      <!-- 2.1 词库模块核心看板 Hero Header -->
+      <view class="module-hero-card">
+        <!-- 顶部标签栏 -->
+        <view class="hero-tag-row">
+          <view class="hero-level-badge">{{module.level}}</view>
+          <view class="hero-domain-badge">{{module.domainTag}}</view>
+          <view class="hero-total-pill">共 {{module.total}} 词</view>
+        </view>
+
+        <!-- 模块技术领域描述 -->
+        <view class="hero-desc">{{module.desc}}</view>
+
+        <!-- 掌握进度条 -->
+        <view class="hero-progress-track">
+          <view class="hero-progress-bar" style="width: {{module.percent}}%;"></view>
+        </view>
+
+        <!-- 进度数值指标与状态 -->
+        <view class="hero-stats-row">
+          <view class="stat-left">
+            <text class="stat-mastered">已掌握 {{module.mastered}} 词 ({{module.percent}}%)</text>
+            <text class="stat-dot">·</text>
+            <text class="stat-remain">待学习 / 巩固 {{module.remain}} 词</text>
+          </view>
+          <text class="stat-sm2">SM-2 排程中 ›</text>
+        </view>
+      </view>
+
+      <!-- 2.2 搜索框与状态筛选 Tab -->
+      <view class="filter-section">
+        <!-- 搜索输入框 -->
+        <view class="search-box">
+          <text class="search-icon">🔍</text>
+          <input 
+            class="search-input" 
+            placeholder="搜索本词库单词、中英文释义或技术场景..." 
+            placeholder-class="search-placeholder"
+            value="{{searchKeyword}}"
+            bindinput="onSearchInput"
+          />
+          <view wx:if="{{searchKeyword}}" class="clear-btn" bindtap="onClearSearch">✕</view>
+        </view>
+
+        <!-- 筛选 Pills 胶囊栏 -->
+        <view class="filter-pills-row">
+          <block wx:for="{{filterTabs}}" wx:key="key">
+            <view 
+              class="pill-item {{currentFilter === item.key ? 'active' : ''}}"
+              bindtap="onSelectFilter"
+              data-key="{{item.key}}"
+            >
+              <text>{{item.label}} {{item.count}}</text>
+            </view>
+          </block>
+          <view class="sort-indicator" bindtap="onToggleSort">
+            <text>{{sortMode === 'asc' ? '字母 A-Z ▾' : '默认排序 ▾'}}</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 2.3 单词总览列表区 -->
+      <view class="word-directory-container">
+        <!-- 若有搜索关键字，展示搜索结果摘要 -->
+        <view wx:if="{{searchKeyword}}" class="search-hint">
+          找到 <text class="highlight-num">{{filteredWords.length}}</text> 个匹配词汇：
+        </view>
+
+        <!-- 无搜索关键字时，按章节层级展示 -->
+        <block wx:if="{{!searchKeyword}}">
+          <block wx:for="{{displaySections}}" wx:key="id" wx:for-item="sec">
+            <view class="section-group">
+              <view class="section-header-title">
+                <text class="section-hash">//</text> {{sec.title}}
+              </view>
+
+              <view class="words-card-group">
+                <block wx:for="{{sec.words}}" wx:key="id">
+                  <view 
+                    class="word-card-row" 
+                    bindtap="onTapWordCard" 
+                    data-word="{{item.word}}"
+                    hover-class="card-row-hover"
+                  >
+                    <!-- 顶部：词名 + 音标 + 状态徽章 -->
+                    <view class="word-top-line">
+                      <view class="word-name-group">
+                        <text class="word-name">{{item.word}}</text>
+                        <text class="word-phonetic">{{item.phonetic}}</text>
+                        <text class="word-pos">{{item.pos}}</text>
+                        <view class="overview-audio-btn {{playingWord === item.word ? 'playing' : ''}}" catchtap="onPlayWordAudio" data-word="{{item.word}}">
+                          <text class="mini-audio-emoji">{{playingWord === item.word ? '⏸' : '🔊'}}</text>
+                        </view>
+                      </view>
+
+                      <!-- 状态徽章 -->
+                      <view class="badge-group">
+                        <view wx:if="{{item.status === 'mastered'}}" class="badge-tag badge-mastered">
+                          已掌握 ✓
+                        </view>
+                        <view wx:else class="badge-tag badge-review">
+                          待复习
+                        </view>
+                        <view wx:if="{{item.isVerified}}" class="badge-tag badge-verified">
+                          🛡️客验
+                        </view>
+                      </view>
+                    </view>
+
+                    <!-- 双轨释义摘要：生活常释 -->
+                    <view class="def-line">
+                      <view class="def-badge def-life">生活常释</view>
+                      <text class="def-text">{{item.generalDefinition || '生活通用含义'}}</text>
+                    </view>
+
+                    <!-- 双轨释义摘要：计算机技术释义 -->
+                    <view class="def-line">
+                      <view class="def-badge def-tech">技术释义</view>
+                      <text class="def-text def-tech-bold">{{item.techDefinition}}：{{item.techDetail}}</text>
+                    </view>
+
+                    <!-- 右侧微箭头 -->
+                    <view class="card-arrow">›</view>
+                  </view>
+                </block>
+              </view>
+            </view>
+          </block>
+        </block>
+
+        <!-- 搜索或筛选态下的扁平列表展示 -->
+        <block wx:else>
+          <view class="words-card-group">
+            <block wx:for="{{filteredWords}}" wx:key="id">
+              <view 
+                class="word-card-row" 
+                bindtap="onTapWordCard" 
+                data-word="{{item.word}}"
+                hover-class="card-row-hover"
+              >
+                <view class="word-top-line">
+                  <view class="word-name-group">
+                    <text class="word-name">{{item.word}}</text>
+                    <text class="word-phonetic">{{item.phonetic}}</text>
+                    <text class="word-pos">{{item.pos}}</text>
+                    <view class="overview-audio-btn {{playingWord === item.word ? 'playing' : ''}}" catchtap="onPlayWordAudio" data-word="{{item.word}}">
+                      <text class="mini-audio-emoji">{{playingWord === item.word ? '⏸' : '🔊'}}</text>
+                    </view>
+                  </view>
+                  <view class="badge-group">
+                    <view wx:if="{{item.status === 'mastered'}}" class="badge-tag badge-mastered">
+                      已掌握 ✓
+                    </view>
+                    <view wx:else class="badge-tag badge-review">
+                      待复习
+                    </view>
+                    <view wx:if="{{item.isVerified}}" class="badge-tag badge-verified">
+                      🛡️客验
+                    </view>
+                  </view>
+                </view>
+
+                <view class="def-line">
+                  <view class="def-badge def-life">生活常释</view>
+                  <text class="def-text">{{item.generalDefinition || '生活通用含义'}}</text>
+                </view>
+
+                <view class="def-line">
+                  <view class="def-badge def-tech">技术释义</view>
+                  <text class="def-text def-tech-bold">{{item.techDefinition}}：{{item.techDetail}}</text>
+                </view>
+                <view class="card-arrow">›</view>
+              </view>
+            </block>
+          </view>
+        </block>
+
+        <!-- 空搜索结果 -->
+        <view wx:if="{{filteredWords.length === 0}}" class="empty-state">
+          <text class="empty-icon">📂</text>
+          <text class="empty-title">未找到匹配的专业词汇</text>
+          <text class="empty-desc">尝试搜索其他协议缩写、中英文关键字或清空搜索词</text>
+        </view>
+
+      </view>
+
+      <!-- 底部安全间距，防止内容被固定行动栏遮挡 -->
+      <view class="bottom-spacer"></view>
+    </view>
+  </scroll-view>
+
+  <!-- ==================== 3. 底部悬浮学习行动栏 (Floating CTA Bar) ==================== -->
+  <view class="bottom-cta-bar">
+    <view class="cta-left">
+      <view class="cta-title">本模块待攻克 {{module.remain}} 词</view>
+      <view class="cta-sub">包含 {{module.remain}} 个待巩固 · SM-2 智能曲线</view>
+    </view>
+
+    <view class="cta-right-group">
+      <!-- 挑战按钮：直达客观真验 -->
+      <view class="cta-btn btn-challenge" bindtap="onStartQuiz" hover-class="btn-hover">
+        <text>🎯 挑战</text>
+      </view>
+
+      <!-- 主行动：进入卡片背词流 -->
+      <view class="cta-btn btn-study" bindtap="onStartStudy" hover-class="btn-hover">
+        <text>开始背词 ›</text>
+      </view>
+    </view>
+  </view>
+
+</view>

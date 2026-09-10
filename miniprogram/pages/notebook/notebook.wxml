@@ -1,0 +1,150 @@
+<!-- miniprogram/pages/notebook/notebook.wxml -->
+<view class="page-container">
+
+  <!-- ==================== 1. 自定义顶部导航栏 ==================== -->
+  <view class="nav-bar" style="padding-top: {{statusBarHeight}}px;">
+    <view class="nav-content" style="height: {{navBarHeight}}px;">
+      <view class="nav-title-group">
+        <text class="nav-title">技术生词本</text>
+        <view class="word-count-badge">{{stats.totalWords}} 词</view>
+      </view>
+      <!-- 胶囊对齐留白 -->
+      <view class="nav-placeholder"></view>
+    </view>
+  </view>
+
+  <!-- ==================== 2. 搜索框与筛选 Tab ==================== -->
+  <view class="search-filter-section">
+    <!-- 极简搜索条 -->
+    <view class="search-box">
+      <text class="search-icon">🔍</text>
+      <input 
+        class="search-input" 
+        placeholder="搜索技术生词、释义或代码关键字..." 
+        placeholder-class="search-placeholder"
+        bindinput="onSearchInput"
+      />
+    </view>
+
+    <!-- 筛选 Pills 胶囊栏 -->
+    <view class="filter-pills">
+      <block wx:for="{{filterTabs}}" wx:key="key">
+        <view 
+          class="pill-item {{currentFilter === item.key ? 'active' : ''}}"
+          bindtap="onSelectFilter"
+          data-key="{{item.key}}"
+        >
+          <text>{{item.label}} {{item.count}}</text>
+        </view>
+      </block>
+    </view>
+  </view>
+
+  <!-- ==================== 3. 核心复习 CTA 卡片 (Hero) ==================== -->
+  <view class="hero-card-wrapper">
+    <view class="review-hero-card">
+      <view class="hero-text-group">
+        <view class="hero-title">⚡ 今日待回炉复习：{{stats.needReviewCount}} 个生词</view>
+        <view class="hero-desc">{{stats.reviewBreakdown}}</view>
+      </view>
+      <!-- 主行动大按钮 -->
+      <view class="start-review-btn" bindtap="onStartReview">
+        <text>开始复习 ›</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- ==================== 4. 生词列表可滚动区域 ==================== -->
+  <scroll-view scroll-y class="word-list-scroll">
+    <view class="word-list-wrapper">
+      <block wx:for="{{filteredWords}}" wx:key="id">
+        <view class="word-item-card" bindtap="onTapWordCard" data-item="{{item}}" hover-class="card-hover">
+          <!-- 顶部词名与音标 -->
+          <view class="item-header">
+            <view class="word-title-row">
+              <text class="item-word">{{item.word}}</text>
+              <text class="item-phonetic">{{item.phonetic}}</text>
+              <view class="notebook-audio-btn {{playingWord === item.word ? 'playing' : ''}}" catchtap="onPlayWordAudio" data-word="{{item.word}}">
+                <text class="audio-emoji">{{playingWord === item.word ? '⏸' : '🔊'}}</text>
+              </view>
+            </view>
+            <!-- 右侧快捷操作按钮 -->
+            <view class="item-action">
+              <view 
+                wx:if="{{item.status === 'need_review'}}"
+                class="mark-mastered-btn"
+                catchtap="onMarkMastered"
+                data-id="{{item.id}}"
+              >
+                <text>已掌握</text>
+              </view>
+              <view 
+                wx:else
+                class="remove-text-btn"
+                catchtap="onRemoveWord"
+                data-id="{{item.id}}"
+              >
+                <text>移出 ›</text>
+              </view>
+            </view>
+          </view>
+
+          <!-- 双轨释义微摘要 -->
+          <view class="item-def">
+            <text class="item-tech-def">{{item.techDefinition}}</text>
+            <text class="item-gen-def" wx:if="{{item.generalDefinition}}"> · 生活: {{item.generalDefinition}}</text>
+          </view>
+
+          <!-- 底部标签与状态徽标 -->
+          <view class="item-tags-row">
+            <view class="source-tag">来源: {{item.source}}</view>
+            <view class="verified-tag" wx:if="{{item.isVerified}}">
+              <text>🛡️ 客观真验 ✓</text>
+            </view>
+            <view class="status-tag status-{{item.statusColor}}">
+              {{item.statusLabel}}
+            </view>
+          </view>
+        </view>
+      </block>
+
+      <!-- 列表触底文案 -->
+      <view class="list-end-hint">
+        <text>已加载全部 {{filteredWords.length}} 个生词 · 定期回炉效率翻倍</text>
+      </view>
+
+      <view class="bottom-spacer"></view>
+    </view>
+  </scroll-view>
+
+  <!-- ==================== 5. 底部 4-Tab 导航栏 ==================== -->
+  <view class="tab-bar">
+    <!-- Tab 1: 学习 -->
+    <view class="tab-item" bindtap="onSwitchTab" data-tab="home">
+      <view class="tab-icon icon-learn"></view>
+      <text class="tab-text">学习</text>
+    </view>
+
+    <!-- Tab 2: 阅读 -->
+    <view class="tab-item" bindtap="onSwitchTab" data-tab="reader">
+      <view class="tab-icon icon-read"></view>
+      <text class="tab-text">阅读</text>
+    </view>
+
+    <!-- Tab 3: 生词本 (激活高亮态) -->
+    <view class="tab-item active" bindtap="onSwitchTab" data-tab="notebook">
+      <view class="tab-indicator"></view>
+      <view class="tab-icon icon-notebook active">
+        <text class="badge-dot"></text>
+      </view>
+      <text class="tab-text active">生词本</text>
+    </view>
+
+    <!-- Tab 4: 我的 -->
+    <view class="tab-item" bindtap="onSwitchTab" data-tab="profile">
+      <view class="tab-icon icon-profile"></view>
+      <text class="tab-text">我的</text>
+    </view>
+  </view>
+
+</view>

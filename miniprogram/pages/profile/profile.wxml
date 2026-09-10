@@ -1,0 +1,139 @@
+<!-- miniprogram/pages/profile/profile.wxml -->
+<view class="page-container">
+
+  <!-- ==================== 1. 自定义顶部导航栏 ==================== -->
+  <view class="nav-bar" style="padding-top: {{statusBarHeight}}px;">
+    <view class="nav-content" style="height: {{navBarHeight}}px;">
+      <text class="nav-title">个人中心</text>
+      <!-- 微信原生胶囊避让 -->
+      <view class="nav-placeholder"></view>
+    </view>
+  </view>
+
+  <scroll-view scroll-y class="profile-scroll">
+    <view class="profile-content">
+
+      <!-- ==================== 2. 个人信息卡片 ==================== -->
+      <view class="user-profile-card">
+        <!-- 终端极客头像 -->
+        <view class="user-avatar">
+          <text class="avatar-prompt">&gt;_</text>
+        </view>
+        <!-- 昵称与目标 -->
+        <view class="user-info">
+          <view class="user-nickname">{{user.nickname}}</view>
+          <view class="user-domain">{{user.targetDomain}}</view>
+        </view>
+        <!-- 云同步状态 -->
+        <view class="sync-badge">
+          <text>{{user.syncStatus}}</text>
+        </view>
+      </view>
+
+      <!-- ==================== 3. 核心学习数据看板 ==================== -->
+      <view class="stats-dashboard">
+        <!-- 列 1: 已掌握 -->
+        <view class="stat-col">
+          <view class="stat-num">{{stats.masteredWords}}</view>
+          <view class="stat-label">已掌握词</view>
+        </view>
+        <view class="stat-divider"></view>
+
+        <!-- 列 2: 连续打卡 -->
+        <view class="stat-col">
+          <view class="stat-num">
+            {{stats.streakDays}} <text class="fire-icon">🔥</text>
+          </view>
+          <view class="stat-label">连续天数</view>
+        </view>
+        <view class="stat-divider"></view>
+
+        <!-- 列 3: 生词收集 -->
+        <view class="stat-col">
+          <view class="stat-num">{{stats.collectedWords}}</view>
+          <view class="stat-label">生词收集</view>
+        </view>
+        <view class="stat-divider"></view>
+
+        <!-- 列 4: 已读篇数 -->
+        <view class="stat-col">
+          <view class="stat-num">{{stats.readArticles}}</view>
+          <view class="stat-label">已读篇数</view>
+        </view>
+      </view>
+
+      <!-- ==================== 4. 技术领域词库掌握度矩阵 ==================== -->
+      <view class="section-container">
+        <view class="section-title">技术领域词库进度</view>
+        
+        <view class="progress-card">
+          <block wx:for="{{moduleProgress}}" wx:key="id">
+            <view class="module-item" bindtap="onTapModule" data-id="{{item.id}}" hover-class="item-hover">
+              <view class="module-info-row">
+                <text class="module-name {{item.statusType}}">{{item.level}} · {{item.name}}</text>
+                <text class="module-status-text {{item.statusType}}">{{item.statusTag}}</text>
+              </view>
+              <!-- 进度条 -->
+              <view class="module-track">
+                <view 
+                  class="module-bar {{item.statusType}}" 
+                  style="width: {{item.percent}}%;"
+                ></view>
+              </view>
+            </view>
+            <view wx:if="{{index + 1 !== moduleProgress.length}}" class="item-divider"></view>
+          </block>
+        </view>
+      </view>
+
+      <!-- ==================== 5. 系统设置与功能菜单 ==================== -->
+      <view class="section-container">
+        <view class="settings-card">
+          <block wx:for="{{settings}}" wx:key="id">
+            <view class="setting-row" bindtap="onTapSetting" data-id="{{item.id}}">
+              <text class="setting-title">{{item.title}}</text>
+              <view class="setting-right">
+                <view wx:if="{{item.tag}}" class="setting-tag">{{item.tag}}</view>
+                <text class="setting-value">{{item.value}}</text>
+              </view>
+            </view>
+            <view wx:if="{{index + 1 !== settings.length}}" class="item-divider"></view>
+          </block>
+        </view>
+      </view>
+
+      <view class="bottom-spacer"></view>
+    </view>
+  </scroll-view>
+
+  <!-- ==================== 6. 底部 4-Tab 导航栏 ==================== -->
+  <view class="tab-bar">
+    <!-- Tab 1: 学习 -->
+    <view class="tab-item" bindtap="onSwitchTab" data-tab="home">
+      <view class="tab-icon icon-learn"></view>
+      <text class="tab-text">学习</text>
+    </view>
+
+    <!-- Tab 2: 阅读 -->
+    <view class="tab-item" bindtap="onSwitchTab" data-tab="reader">
+      <view class="tab-icon icon-read"></view>
+      <text class="tab-text">阅读</text>
+    </view>
+
+    <!-- Tab 3: 生词本 -->
+    <view class="tab-item" bindtap="onSwitchTab" data-tab="notebook">
+      <view class="tab-icon icon-notebook">
+        <text class="badge-dot"></text>
+      </view>
+      <text class="tab-text">生词本</text>
+    </view>
+
+    <!-- Tab 4: 我的 (激活高亮态) -->
+    <view class="tab-item active" bindtap="onSwitchTab" data-tab="profile">
+      <view class="tab-indicator"></view>
+      <view class="tab-icon icon-profile active"></view>
+      <text class="tab-text active">我的</text>
+    </view>
+  </view>
+
+</view>

@@ -1,0 +1,236 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 375 812" width="375" height="812" style="background:#F8FAFC; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'PingFang SC', 'Microsoft YaHei', sans-serif;">
+  <defs>
+    <filter id="card-shadow" x="-5%" y="-5%" width="110%" height="115%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#0F172A" flood-opacity="0.04" />
+    </filter>
+  </defs>
+
+  <!-- 页面底色：Slate 50 浅灰底 -->
+  <rect width="375" height="812" fill="#F8FAFC"/>
+
+  <!-- ==================== 1. 顶部状态栏 & 导航栏 (0 ~ 88px) ==================== -->
+  <g id="nav-bar">
+    <!-- 状态栏 -->
+    <text x="24" y="32" font-size="12" fill="#64748B" font-weight="500">9:41</text>
+    <rect x="318" y="22" width="22" height="11" rx="3" fill="none" stroke="#64748B" stroke-width="1.5"/>
+    <rect x="320" y="24" width="15" height="7" rx="1.5" fill="#64748B"/>
+    <circle cx="304" cy="27" r="3" fill="#64748B"/>
+
+    <!-- 规范化返回按钮 (与 word-overview / reader 统一规范) -->
+    <g transform="translate(16, 46)" cursor="pointer">
+      <rect width="32" height="30" rx="6" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1"/>
+      <path d="M19 9L13 15L19 21" stroke="#334155" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+
+    <!-- 导航栏标题与分类归属 -->
+    <g transform="translate(56, 46)">
+      <text x="0" y="21" font-size="17" font-weight="800" fill="#0F172A">网络与分布式协议</text>
+    </g>
+
+    <!-- 微信小程序原生胶囊 -->
+    <rect x="282" y="46" width="80" height="30" rx="15" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1"/>
+    <circle cx="305" cy="61" r="3.5" fill="#64748B"/>
+    <circle cx="312" cy="61" r="1.5" fill="#94A3B8"/>
+    <circle cx="337" cy="61" r="5" fill="none" stroke="#64748B" stroke-width="1.5"/>
+
+    <line x1="0" y1="88" x2="375" y2="88" stroke="#F1F5F9" stroke-width="1"/>
+  </g>
+
+  <!-- ==================== 2. 分类概览 Hero Header (96 ~ 152px) ==================== -->
+  <g id="category-hero" transform="translate(16, 96)" filter="url(#card-shadow)">
+    <rect width="343" height="52" rx="10" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1"/>
+    
+    <g transform="translate(14, 16)">
+      <!-- 统计指标与说明 -->
+      <text x="0" y="14" font-size="12" font-weight="700" fill="#0F172A">精选文献 8 篇</text>
+      <text x="80" y="14" font-size="11" fill="#64748B">· 涵盖 11 个技术词 · 已读 5 篇</text>
+
+      <!-- 进度条与百分比 -->
+      <g transform="translate(245, 2)">
+        <text x="0" y="12" font-size="11" font-weight="700" fill="#2563EB">62%</text>
+        <rect x="28" y="5" width="48" height="5" rx="2.5" fill="#F1F5F9"/>
+        <rect x="28" y="5" width="30" height="5" rx="2.5" fill="#2563EB"/>
+      </g>
+    </g>
+  </g>
+
+  <!-- ==================== 3. 状态筛选胶囊 (Filter Pills, 156 ~ 188px) ==================== -->
+  <g id="filter-pills" transform="translate(16, 156)">
+    <!-- Pill 1: 全部 (Active 曜石黑) -->
+    <g transform="translate(0, 0)" cursor="pointer">
+      <rect width="66" height="28" rx="14" fill="#0F172A"/>
+      <text x="33" y="18" font-size="11" font-weight="700" fill="#FFFFFF" text-anchor="middle">全部 (8)</text>
+    </g>
+
+    <!-- Pill 2: 阅读中 (1) -->
+    <g transform="translate(72, 0)" cursor="pointer">
+      <rect width="76" height="28" rx="14" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1"/>
+      <circle cx="16" cy="14" r="3" fill="#D97706"/>
+      <text x="44" y="18" font-size="11" font-weight="600" fill="#475569" text-anchor="middle">阅读中 (1)</text>
+    </g>
+
+    <!-- Pill 3: 已读完 (4) -->
+    <g transform="translate(154, 0)" cursor="pointer">
+      <rect width="76" height="28" rx="14" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1"/>
+      <circle cx="16" cy="14" r="3" fill="#059669"/>
+      <text x="44" y="18" font-size="11" font-weight="600" fill="#475569" text-anchor="middle">已读完 (4)</text>
+    </g>
+
+    <!-- Pill 4: 待阅读 (3) -->
+    <g transform="translate(236, 0)" cursor="pointer">
+      <rect width="76" height="28" rx="14" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1"/>
+      <circle cx="16" cy="14" r="3" fill="#94A3B8"/>
+      <text x="44" y="18" font-size="11" font-weight="600" fill="#475569" text-anchor="middle">待阅读 (3)</text>
+    </g>
+  </g>
+
+  <!-- ==================== 4. 文章列表流 (Articles Stream, 196 ~ 770px) ==================== -->
+  <g id="article-list">
+
+    <!-- 文章 1: 上次阅读 / 阅读中 (Understanding TCP Handshake) -->
+    <g transform="translate(16, 196)" filter="url(#card-shadow)" cursor="pointer">
+      <rect width="343" height="136" rx="12" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1"/>
+      
+      <!-- 处于活跃阅读态的左侧标记条 -->
+      <rect x="0" y="16" width="3" height="104" rx="1.5" fill="#0F172A"/>
+
+      <g transform="translate(14, 14)">
+        <!-- 标签行 -->
+        <g transform="translate(0, 0)">
+          <!-- 状态徽章：读至 68% -->
+          <rect x="0" y="0" width="76" height="18" rx="4" fill="#FFFBEB" stroke="#FDE68A" stroke-width="0.8"/>
+          <text x="38" y="13" font-size="10" font-weight="700" fill="#D97706" text-anchor="middle">读至 68% ↻</text>
+
+          <!-- 规范标签 -->
+          <rect x="82" y="0" width="60" height="18" rx="4" fill="#EFF6FF"/>
+          <text x="112" y="13" font-size="10" font-weight="600" fill="#2563EB" text-anchor="middle">RFC 793</text>
+
+          <!-- 右侧耗时与词数 -->
+          <text x="315" y="13" font-size="11" fill="#94A3B8" text-anchor="end">3 分钟 · 185 词</text>
+        </g>
+
+        <!-- 文章标题 -->
+        <text x="0" y="38" font-size="15" font-weight="800" fill="#0F172A">Understanding TCP Handshake</text>
+
+        <!-- 技术导读摘要 (两行) -->
+        <text x="0" y="58" font-size="12" fill="#475569">三次握手状态机深度解析，剖析 SYN/ACK 序列号同步设计</text>
+        <text x="0" y="74" font-size="12" fill="#475569">与服务端幂等防重连处理机制。</text>
+
+        <!-- 核心词汇标签与行动按钮 -->
+        <g transform="translate(0, 90)">
+          <!-- 词汇药丸 -->
+          <rect x="0" y="0" width="78" height="20" rx="4" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
+          <text x="39" y="14" font-size="10" font-weight="600" fill="#334155" text-anchor="middle" font-family="'JetBrains Mono', monospace">synchronize</text>
+
+          <rect x="84" y="0" width="76" height="20" rx="4" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
+          <text x="122" y="14" font-size="10" font-weight="600" fill="#334155" text-anchor="middle" font-family="'JetBrains Mono', monospace">idempotent</text>
+
+          <!-- 右侧行动指引 -->
+          <text x="315" y="15" font-size="11" font-weight="700" fill="#0F172A" text-anchor="end">继续阅读 ›</text>
+        </g>
+      </g>
+    </g>
+
+    <!-- 文章 2: 已读完 (HTTP/3 and QUIC Protocol Deep Dive) -->
+    <g transform="translate(16, 342)" filter="url(#card-shadow)" cursor="pointer">
+      <rect width="343" height="134" rx="12" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1"/>
+
+      <g transform="translate(14, 14)">
+        <g transform="translate(0, 0)">
+          <!-- 状态徽章：已读完 -->
+          <rect x="0" y="0" width="74" height="18" rx="4" fill="#ECFDF5" stroke="#A7F3D0" stroke-width="0.8"/>
+          <text x="37" y="13" font-size="10" font-weight="700" fill="#059669" text-anchor="middle">已精读 100% ✓</text>
+
+          <rect x="80" y="0" width="60" height="18" rx="4" fill="#EFF6FF"/>
+          <text x="110" y="13" font-size="10" font-weight="600" fill="#2563EB" text-anchor="middle">RFC 9000</text>
+
+          <text x="315" y="13" font-size="11" fill="#94A3B8" text-anchor="end">5 分钟 · 320 词</text>
+        </g>
+
+        <text x="0" y="38" font-size="15" font-weight="800" fill="#0F172A">HTTP/3 and QUIC Protocol Deep Dive</text>
+
+        <text x="0" y="58" font-size="12" fill="#475569">从基于 UDP 的传输层重构出发，探讨多路复用与彻底消除</text>
+        <text x="0" y="74" font-size="12" fill="#475569">TCP 队头阻塞 (Head-of-Line Blocking) 的核心原理。</text>
+
+        <g transform="translate(0, 90)">
+          <rect x="0" y="0" width="80" height="20" rx="4" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
+          <text x="40" y="14" font-size="10" font-weight="600" fill="#334155" text-anchor="middle" font-family="'JetBrains Mono', monospace">multiplexing</text>
+
+          <rect x="86" y="0" width="56" height="20" rx="4" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
+          <text x="114" y="14" font-size="10" font-weight="600" fill="#334155" text-anchor="middle" font-family="'JetBrains Mono', monospace">latency</text>
+
+          <text x="315" y="15" font-size="11" font-weight="600" fill="#64748B" text-anchor="end">重温文献 ›</text>
+        </g>
+      </g>
+    </g>
+
+    <!-- 文章 3: 待阅读 (WebSocket vs gRPC Streaming Architecture) -->
+    <g transform="translate(16, 486)" filter="url(#card-shadow)" cursor="pointer">
+      <rect width="343" height="134" rx="12" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1"/>
+
+      <g transform="translate(14, 14)">
+        <g transform="translate(0, 0)">
+          <!-- 状态徽章：待阅读 -->
+          <rect x="0" y="0" width="50" height="18" rx="4" fill="#F1F5F9"/>
+          <text x="25" y="13" font-size="10" font-weight="600" fill="#64748B" text-anchor="middle">未阅读</text>
+
+          <rect x="56" y="0" width="68" height="18" rx="4" fill="#FAF5FF"/>
+          <text x="90" y="13" font-size="10" font-weight="600" fill="#9333EA" text-anchor="middle">全双工流式</text>
+
+          <text x="315" y="13" font-size="11" fill="#94A3B8" text-anchor="end">4 分钟 · 260 词</text>
+        </g>
+
+        <text x="0" y="38" font-size="15" font-weight="800" fill="#0F172A">WebSocket vs gRPC Streaming</text>
+
+        <text x="0" y="58" font-size="12" fill="#475569">对比双向全双工长连接与 HTTP/2 Protobuf 二进制帧协议，</text>
+        <text x="0" y="74" font-size="12" fill="#475569">剖析背压控制 (Backpressure) 与长会话维持开销。</text>
+
+        <g transform="translate(0, 90)">
+          <rect x="0" y="0" width="72" height="20" rx="4" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
+          <text x="36" y="14" font-size="10" font-weight="600" fill="#334155" text-anchor="middle" font-family="'JetBrains Mono', monospace">full-duplex</text>
+
+          <rect x="78" y="0" width="84" height="20" rx="4" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
+          <text x="120" y="14" font-size="10" font-weight="600" fill="#334155" text-anchor="middle" font-family="'JetBrains Mono', monospace">backpressure</text>
+
+          <text x="315" y="15" font-size="11" font-weight="700" fill="#0F172A" text-anchor="end">开始阅读 ›</text>
+        </g>
+      </g>
+    </g>
+
+    <!-- 文章 4: 待阅读 (DNS Resolution & Anycast Routing) -->
+    <g transform="translate(16, 630)" filter="url(#card-shadow)" cursor="pointer">
+      <rect width="343" height="134" rx="12" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1"/>
+
+      <g transform="translate(14, 14)">
+        <g transform="translate(0, 0)">
+          <rect x="0" y="0" width="50" height="18" rx="4" fill="#F1F5F9"/>
+          <text x="25" y="13" font-size="10" font-weight="600" fill="#64748B" text-anchor="middle">未阅读</text>
+
+          <rect x="56" y="0" width="60" height="18" rx="4" fill="#EFF6FF"/>
+          <text x="86" y="13" font-size="10" font-weight="600" fill="#2563EB" text-anchor="middle">RFC 1035</text>
+
+          <text x="315" y="13" font-size="11" fill="#94A3B8" text-anchor="end">4 分钟 · 210 词</text>
+        </g>
+
+        <text x="0" y="38" font-size="15" font-weight="800" fill="#0F172A">DNS Resolution &amp; Anycast Routing</text>
+
+        <text x="0" y="58" font-size="12" fill="#475569">深入递归查询链路与权威根解析，剖析 Anycast 边缘路由</text>
+        <text x="0" y="74" font-size="12" fill="#475569">在抵御高并发流量与 DDoS 攻击时的拓扑容灾机制。</text>
+
+        <g transform="translate(0, 90)">
+          <rect x="0" y="0" width="66" height="20" rx="4" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
+          <text x="33" y="14" font-size="10" font-weight="600" fill="#334155" text-anchor="middle" font-family="'JetBrains Mono', monospace">checksum</text>
+
+          <rect x="72" y="0" width="74" height="20" rx="4" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
+          <text x="109" y="14" font-size="10" font-weight="600" fill="#334155" text-anchor="middle" font-family="'JetBrains Mono', monospace">reentrancy</text>
+
+          <text x="315" y="15" font-size="11" font-weight="700" fill="#0F172A" text-anchor="end">开始阅读 ›</text>
+        </g>
+      </g>
+    </g>
+
+  </g>
+
+  <!-- 底部安全区 Home Indicator (子页面无 TabBar) -->
+  <rect x="120" y="794" width="135" height="4" rx="2" fill="#CBD5E1"/>
+</svg>

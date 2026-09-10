@@ -1,0 +1,419 @@
+/** miniprogram/pages/home/home.wxss **/
+
+.page-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-canvas, #F8FAFC);
+  overflow: hidden;
+}
+
+/* ==================== 1. 自定义顶部导航栏 ==================== */
+.nav-bar {
+  width: 100%;
+  background-color: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  z-index: 10;
+}
+
+.nav-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32rpx;
+}
+
+.nav-brand {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: var(--text-primary, #0F172A);
+}
+
+.nav-placeholder {
+  width: 160rpx;
+}
+
+/* ==================== 2. 可滚动内容主体 ==================== */
+.home-scroll {
+  flex: 1;
+  height: 0;
+}
+
+.home-content {
+  padding: 24rpx 32rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+
+/* 核心 Hero 卡片 */
+.hero-card {
+  background: #FFFFFF;
+  border: 1rpx solid var(--border-default, #E2E8F0);
+  border-radius: 24rpx;
+  padding: 32rpx;
+  position: relative;
+  box-shadow: 0 4rpx 16rpx rgba(15, 23, 42, 0.04);
+}
+
+.streak-badge {
+  position: absolute;
+  top: 28rpx;
+  right: 28rpx;
+  padding: 8rpx 20rpx;
+  background: var(--bg-surface-subtle, #F1F5F9);
+  border-radius: 24rpx;
+}
+
+.streak-text {
+  font-size: 22rpx;
+  font-weight: 600;
+  color: var(--text-secondary, #334155);
+}
+
+.hero-label {
+  font-size: 26rpx;
+  font-weight: 600;
+  color: var(--text-secondary, #475569);
+  margin-top: 4rpx;
+}
+
+.hero-stats-row {
+  display: flex;
+  align-items: baseline;
+  gap: 16rpx;
+  margin: 16rpx 0 20rpx;
+}
+
+.hero-count {
+  display: flex;
+  align-items: baseline;
+}
+
+.count-curr {
+  font-size: 48rpx;
+  font-weight: 800;
+  color: var(--text-primary, #0F172A);
+  font-family: var(--font-mono);
+}
+
+.count-total {
+  font-size: 26rpx;
+  font-weight: 500;
+  color: var(--text-subtle, #94A3B8);
+  font-family: var(--font-mono);
+}
+
+.hero-percent {
+  font-size: 22rpx;
+  color: var(--text-muted, #64748B);
+}
+
+.hero-progress-track {
+  width: 100%;
+  height: 12rpx;
+  background-color: var(--bg-surface-subtle, #F1F5F9);
+  border-radius: 6rpx;
+  overflow: hidden;
+  margin-bottom: 28rpx;
+}
+
+.hero-progress-bar {
+  height: 100%;
+  background-color: var(--color-primary, #0F172A);
+  border-radius: 6rpx;
+  transition: width 0.3s ease;
+}
+
+.hero-cta-btn {
+  width: 100%;
+  height: 80rpx;
+  background-color: var(--color-primary, #0F172A);
+  color: #FFFFFF;
+  border-radius: 16rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28rpx;
+  font-weight: 600;
+}
+
+/* ==================== 3. 待复习生词轻提醒条 ==================== */
+.review-banner {
+  background: var(--bg-canvas, #F8FAFC);
+  border: 2rpx dashed var(--border-subtle, #CBD5E1);
+  border-radius: 16rpx;
+  padding: 20rpx 24rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.banner-left {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  flex: 1;
+}
+
+.banner-dot {
+  width: 8rpx;
+  height: 8rpx;
+  border-radius: 50%;
+  background-color: var(--text-muted, #64748B);
+}
+
+.banner-text {
+  font-size: 24rpx;
+  color: var(--text-secondary, #334155);
+}
+
+.highlight-count {
+  font-weight: 700;
+  color: var(--text-primary, #0F172A);
+}
+
+.banner-action-btn {
+  padding: 8rpx 20rpx;
+  background: #FFFFFF;
+  border: 1rpx solid var(--border-subtle, #CBD5E1);
+  border-radius: 12rpx;
+  font-size: 22rpx;
+  font-weight: 600;
+  color: var(--text-primary, #0F172A);
+  flex-shrink: 0;
+}
+
+/* ==================== 4. 技术词库模块列表 ==================== */
+.module-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16rpx;
+  padding: 0 4rpx;
+}
+
+.section-title {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: var(--text-primary, #0F172A);
+}
+
+.section-more {
+  font-size: 24rpx;
+  color: var(--text-muted, #64748B);
+}
+
+.module-cards-group {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.module-card {
+  background: #FFFFFF;
+  border-radius: 16rpx;
+  padding: 24rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2rpx 8rpx rgba(15, 23, 42, 0.03);
+}
+
+.module-card.active {
+  border: 3rpx solid var(--color-primary, #0F172A);
+}
+
+.module-card.completed,
+.module-card.pending {
+  border: 1rpx solid var(--border-default, #E2E8F0);
+}
+
+.card-left {
+  flex: 1;
+  margin-right: 16rpx;
+}
+
+.card-header-line {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.module-level-badge {
+  padding: 4rpx 14rpx;
+  background: var(--bg-surface-subtle, #F1F5F9);
+  border-radius: 8rpx;
+  font-size: 20rpx;
+  font-weight: 600;
+  color: var(--text-secondary, #475569);
+}
+
+.module-card-name {
+  font-size: 28rpx;
+  font-weight: 700;
+  color: var(--text-primary, #0F172A);
+}
+
+.card-progress-info {
+  font-size: 22rpx;
+  color: var(--text-muted, #64748B);
+  margin-top: 10rpx;
+}
+
+.module-mini-track {
+  width: 320rpx;
+  height: 8rpx;
+  background-color: var(--bg-surface-subtle, #F1F5F9);
+  border-radius: 4rpx;
+  overflow: hidden;
+  margin-top: 10rpx;
+}
+
+.module-mini-bar {
+  height: 100%;
+  background-color: var(--color-primary, #0F172A);
+  border-radius: 4rpx;
+}
+
+.module-action-btn {
+  padding: 10rpx 24rpx;
+  border-radius: 12rpx;
+  font-size: 24rpx;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.btn-active {
+  background-color: var(--color-primary, #0F172A);
+  color: #FFFFFF;
+}
+
+.btn-completed {
+  background-color: var(--bg-canvas, #F8FAFC);
+  border: 1rpx solid var(--border-default, #E2E8F0);
+  color: var(--text-muted, #64748B);
+}
+
+.btn-pending {
+  background-color: #FFFFFF;
+  border: 1rpx solid var(--border-subtle, #CBD5E1);
+  color: var(--text-secondary, #334155);
+}
+
+/* ==================== 5. 文章阅读快捷入口 ==================== */
+.reader-teaser-card {
+  background: var(--bg-surface-subtle, #F1F5F9);
+  border: 1rpx solid var(--border-default, #E2E8F0);
+  border-radius: 16rpx;
+  padding: 24rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.teaser-left {
+  flex: 1;
+  margin-right: 16rpx;
+}
+
+.teaser-title {
+  font-size: 26rpx;
+  font-weight: 700;
+  color: var(--text-primary, #0F172A);
+}
+
+.teaser-desc {
+  font-size: 22rpx;
+  color: var(--text-muted, #64748B);
+  margin-top: 6rpx;
+}
+
+.teaser-btn {
+  padding: 12rpx 24rpx;
+  background: var(--color-primary, #0F172A);
+  color: #FFFFFF;
+  border-radius: 12rpx;
+  font-size: 22rpx;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.bottom-spacer {
+  height: 100rpx;
+}
+
+/* ==================== 6. 底部 4-Tab 导航栏 ==================== */
+.tab-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 110rpx;
+  background-color: #FFFFFF;
+  border-top: 1rpx solid var(--border-default, #E2E8F0);
+  display: flex;
+  padding-bottom: env(safe-area-inset-bottom);
+  z-index: 50;
+}
+
+.tab-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.tab-indicator {
+  position: absolute;
+  top: 12rpx;
+  width: 48rpx;
+  height: 6rpx;
+  border-radius: 3rpx;
+  background-color: var(--color-primary, #0F172A);
+}
+
+.tab-text {
+  font-size: 20rpx;
+  font-weight: 500;
+  color: var(--text-muted, #64748B);
+  margin-top: 6rpx;
+}
+
+.tab-text.active {
+  color: var(--color-primary, #0F172A);
+  font-weight: 700;
+}
+
+.tab-icon {
+  width: 36rpx;
+  height: 32rpx;
+  border: 2.5rpx solid var(--text-subtle, #94A3B8);
+  border-radius: 4rpx;
+  position: relative;
+}
+
+.tab-icon.icon-learn.active {
+  background-color: var(--color-primary, #0F172A);
+  border-color: var(--color-primary, #0F172A);
+}
+
+.badge-dot {
+  display: block;
+  width: 10rpx;
+  height: 10rpx;
+  border-radius: 50%;
+  background-color: var(--color-danger, #E11D48);
+  position: absolute;
+  top: -4rpx;
+  right: -4rpx;
+}

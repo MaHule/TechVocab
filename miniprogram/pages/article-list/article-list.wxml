@@ -1,0 +1,127 @@
+<!-- miniprogram/pages/article-list/article-list.wxml -->
+<!-- 分类文章列表页面（分类二级子页）· 严格对齐 docs/mockups/article-list.svg -->
+<view class="page-container">
+
+  <!-- ==================== 1. 自定义顶部导航栏 ==================== -->
+  <view class="custom-nav" style="padding-top: {{statusBarHeight}}px;">
+    <view class="nav-content" style="height: {{navBarHeight}}px;">
+      <!-- 统一规范化返回按钮 (Chevron 尖角) -->
+      <view class="nav-back-btn" bindtap="onTapBack" hover-class="btn-hover">
+        <view class="back-icon"></view>
+      </view>
+
+      <!-- 页面主标题 -->
+      <view class="nav-title">{{category.name || '网络与分布式协议'}}</view>
+
+      <!-- 微信小程序原生胶囊避让 -->
+      <view class="nav-capsule-spacer"></view>
+    </view>
+  </view>
+
+  <!-- ==================== 2. 主体滚动内容 ==================== -->
+  <scroll-view scroll-y class="list-scroll" enable-flex="true">
+    <view class="scroll-inner">
+
+      <!-- 2.1 分类概览 Hero Header -->
+      <view class="category-hero">
+        <view class="hero-left">
+          <text class="hero-title">精选文献 {{category.totalCount || 0}} 篇</text>
+          <text class="hero-meta">· 涵盖 {{category.termCount || 11}} 个技术词 · 已读 {{category.masteredCount || 0}} 篇</text>
+        </view>
+        <view class="hero-right">
+          <text class="hero-percent">{{category.percent || 0}}%</text>
+          <view class="hero-bar-track">
+            <view class="hero-bar-fill" style="width: {{category.percent || 0}}%;"></view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 2.2 状态筛选胶囊 (Filter Pills) -->
+      <view class="filter-pills-row">
+        <block wx:for="{{filterTabs}}" wx:for-item="tab" wx:key="key">
+          <view 
+            class="pill-item {{activeFilter === tab.key ? 'active' : ''}}" 
+            bindtap="onTapFilterTab" 
+            data-key="{{tab.key}}"
+            hover-class="pill-hover"
+          >
+            <view wx:if="{{activeFilter !== tab.key && tab.key !== 'all'}}" class="pill-dot dot-{{tab.key}}"></view>
+            <text class="pill-text">{{tab.label}} ({{tab.count}})</text>
+          </view>
+        </block>
+      </view>
+
+      <!-- 2.3 文章卡片流 (Articles Stream) -->
+      <view class="articles-stream">
+        <block wx:for="{{articles}}" wx:for-item="art" wx:key="id">
+          <view 
+            class="article-card {{art.status === 'reading' ? 'card-reading' : ''}}" 
+            bindtap="onTapArticle" 
+            data-id="{{art.id}}"
+            hover-class="card-hover"
+          >
+            <!-- 处于活跃阅读态的左侧标记条 -->
+            <view wx:if="{{art.status === 'reading'}}" class="reading-indicator-bar"></view>
+
+            <view class="card-inner">
+              <!-- 顶部标签行 -->
+              <view class="card-tag-row">
+                <view class="tag-left-group">
+                  <!-- 状态徽章 -->
+                  <view wx:if="{{art.status === 'reading'}}" class="status-badge badge-reading">
+                    <text>{{art.statusLabel || ('读至 ' + art.readPercent + '% ↻')}}</text>
+                  </view>
+                  <view wx:elif="{{art.status === 'mastered'}}" class="status-badge badge-mastered">
+                    <text>已精读 100% ✓</text>
+                  </view>
+                  <view wx:else class="status-badge badge-unread">
+                    <text>未阅读</text>
+                  </view>
+
+                  <!-- 领域/规范标签 -->
+                  <view wx:if="{{art.specTag}}" class="spec-tag">{{art.specTag}}</view>
+                </view>
+
+                <!-- 右侧词数与时长 -->
+                <view class="time-meta">{{art.readTime}} · {{art.wordCount}}</view>
+              </view>
+
+              <!-- 文章主标题 -->
+              <view class="article-title">{{art.title}}</view>
+
+              <!-- 技术导读摘要 (两行) -->
+              <view class="article-summary">{{art.summary}}</view>
+
+              <!-- 底部生词药丸与行动指引 -->
+              <view class="card-bottom-row">
+                <view class="vocab-pills-group">
+                  <block wx:for="{{art.keyTerms}}" wx:for-item="term" wx:key="*this">
+                    <view class="term-pill">{{term}}</view>
+                  </block>
+                </view>
+
+                <!-- 行动文本 -->
+                <view class="action-link {{art.status === 'reading' ? 'link-bold' : ''}}">
+                  <text wx:if="{{art.status === 'reading'}}">继续阅读 ›</text>
+                  <text wx:elif="{{art.status === 'mastered'}}">重温文献 ›</text>
+                  <text wx:else>开始阅读 ›</text>
+                </view>
+              </view>
+            </view>
+          </view>
+        </block>
+
+        <!-- 空状态 -->
+        <view wx:if="{{articles.length === 0}}" class="empty-box">
+          <view class="empty-icon">📖</view>
+          <view class="empty-text">当前筛选状态下暂无文章</view>
+        </view>
+      </view>
+
+      <!-- 底部安全间距 -->
+      <view class="bottom-spacer"></view>
+
+    </view>
+  </scroll-view>
+
+</view>

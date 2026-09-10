@@ -1,0 +1,173 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <!-- 背景暗夜黑曜石渐变 -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0F172A" />
+      <stop offset="45%" stop-color="#090D16" />
+      <stop offset="100%" stop-color="#030712" />
+    </linearGradient>
+    
+    <!-- 底层卡片渐变 (深度偏转卡片) -->
+    <linearGradient id="backCardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1E1B4B" stop-opacity="0.8" />
+      <stop offset="100%" stop-color="#0F172A" stop-opacity="0.9" />
+    </linearGradient>
+
+    <!-- 主卡片玻璃态质感渐变 -->
+    <linearGradient id="frontCardGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1E293B" stop-opacity="0.92" />
+      <stop offset="100%" stop-color="#0B1120" stop-opacity="0.97" />
+    </linearGradient>
+    
+    <!-- 核心声波律动渐变: 极光青 -> 科技蓝 -> 霓虹绿 -->
+    <linearGradient id="waveGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#22D3EE" />
+      <stop offset="35%" stop-color="#38BDF8" />
+      <stop offset="70%" stop-color="#6366F1" />
+      <stop offset="100%" stop-color="#10B981" />
+    </linearGradient>
+
+    <!-- 声波环外弧渐变 -->
+    <linearGradient id="arcGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38BDF8" />
+      <stop offset="100%" stop-color="#10B981" />
+    </linearGradient>
+
+    <!-- 顶部环境光晕 (青色系) -->
+    <radialGradient id="glowTop" cx="30%" cy="18%" r="65%">
+      <stop offset="0%" stop-color="#38BDF8" stop-opacity="0.32" />
+      <stop offset="100%" stop-color="#38BDF8" stop-opacity="0" />
+    </radialGradient>
+
+    <!-- 底部环境光晕 (绿色系) -->
+    <radialGradient id="glowBottom" cx="75%" cy="82%" r="55%">
+      <stop offset="0%" stop-color="#10B981" stop-opacity="0.25" />
+      <stop offset="100%" stop-color="#10B981" stop-opacity="0" />
+    </radialGradient>
+
+    <!-- 边框高光倒角渐变 -->
+    <linearGradient id="rimLight" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38BDF8" stop-opacity="0.8" />
+      <stop offset="30%" stop-color="#FFFFFF" stop-opacity="0.25" />
+      <stop offset="70%" stop-color="#6366F1" stop-opacity="0.3" />
+      <stop offset="100%" stop-color="#10B981" stop-opacity="0.7" />
+    </linearGradient>
+
+    <!-- 滤镜: 柔光辉光 -->
+    <filter id="softGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+
+    <!-- 滤镜: 卡片悬浮立体投影 -->
+    <filter id="cardShadow" x="-15%" y="-15%" width="130%" height="140%">
+      <feDropShadow dx="0" dy="20" stdDeviation="24" flood-color="#000000" flood-opacity="0.75" />
+    </filter>
+  </defs>
+
+  <!-- ==================== 1. 标准 Squircle 图标底板 (512x512, rx=115) ==================== -->
+  <rect width="512" height="512" rx="115" fill="url(#bgGrad)" />
+  <rect width="512" height="512" rx="115" fill="url(#glowTop)" />
+  <rect width="512" height="512" rx="115" fill="url(#glowBottom)" />
+  
+  <!-- 外沿微光倒角描边 -->
+  <rect width="510" height="510" x="1" y="1" rx="114" fill="none" stroke="url(#rimLight)" stroke-width="2" opacity="0.9" />
+
+  <!-- 极客技术背景点阵网格 (纯几何线条，增强底层工程感) -->
+  <g opacity="0.05" stroke="#FFFFFF" stroke-width="1">
+    <line x1="64" y1="0" x2="64" y2="512" />
+    <line x1="128" y1="0" x2="128" y2="512" />
+    <line x1="192" y1="0" x2="192" y2="512" />
+    <line x1="256" y1="0" x2="256" y2="512" />
+    <line x1="320" y1="0" x2="320" y2="512" />
+    <line x1="384" y1="0" x2="384" y2="512" />
+    <line x1="448" y1="0" x2="448" y2="512" />
+
+    <line x1="0" y1="64" x2="512" y2="64" />
+    <line x1="0" y1="128" x2="512" y2="128" />
+    <line x1="0" y1="192" x2="512" y2="192" />
+    <line x1="0" y1="256" x2="512" y2="256" />
+    <line x1="0" y1="320" x2="512" y2="320" />
+    <line x1="0" y1="384" x2="512" y2="384" />
+    <line x1="0" y1="448" x2="512" y2="448" />
+  </g>
+
+  <!-- ==================== 2. 双层 3D 浮动词卡 (象征 3D 翻转卡片与知识卡堆) ==================== -->
+  
+  <!-- 2A. 底层翻转卡片 (略微旋转 -7°，构成空间错层深度感) -->
+  <g transform="rotate(-7, 256, 256)">
+    <rect x="92" y="78" width="332" height="348" rx="32" 
+          fill="url(#backCardGrad)" 
+          stroke="rgba(99, 102, 241, 0.4)" 
+          stroke-width="1.5" />
+    <!-- 隐约的底层卡片顶栏微光点 -->
+    <circle cx="126" cy="108" r="4.5" fill="#6366F1" opacity="0.6" />
+    <circle cx="142" cy="108" r="4.5" fill="#818CF8" opacity="0.6" />
+    <circle cx="158" cy="108" r="4.5" fill="#A5B4FC" opacity="0.6" />
+  </g>
+
+  <!-- 2B. 主层核心终端卡片 (居中悬浮) -->
+  <g filter="url(#cardShadow)">
+    <rect x="84" y="84" width="344" height="344" rx="30" 
+          fill="url(#frontCardGrad)" 
+          stroke="rgba(255, 255, 255, 0.16)" 
+          stroke-width="1.5" />
+    
+    <!-- 终端顶部控制条底色 -->
+    <path d="M 84 114 C 84 97.4 97.4 84 114 84 L 398 84 C 414.6 84 428 97.4 428 114 L 428 126 L 84 126 Z" 
+          fill="#1E293B" opacity="0.8" />
+    <line x1="84" y1="126" x2="428" y2="126" stroke="rgba(255, 255, 255, 0.08)" stroke-width="1" />
+
+    <!-- macOS 经典红黄绿三色终端控制点 -->
+    <circle cx="116" cy="105" r="6" fill="#EF4444" />
+    <circle cx="136" cy="105" r="6" fill="#F59E0B" />
+    <circle cx="156" cy="105" r="6" fill="#10B981" />
+
+    <!-- 顶部状态指示条 (纯几何线条，替代文字标题) -->
+    <rect x="236" y="102" width="40" height="6" rx="3" fill="rgba(255, 255, 255, 0.2)" />
+  </g>
+
+  <!-- ==================== 3. 核心视觉主体: 声波发音频谱与代码结构 (纯图形) ==================== -->
+  
+  <g filter="url(#softGlow)">
+    <!-- 3A. 顶部代码注释/缩进抽象微条 (抽象科技线条) -->
+    <rect x="186" y="152" width="140" height="7" rx="3.5" fill="rgba(255, 255, 255, 0.14)" />
+
+    <!-- 3B. 7 柱声波律动原音频谱 (代表原声伴读与纯正英语发音，中心对称起伏) -->
+    <!-- 柱 1 -->
+    <rect x="171" y="234" width="14" height="44" rx="7" fill="url(#waveGrad)" />
+    <!-- 柱 2 -->
+    <rect x="197" y="216" width="14" height="80" rx="7" fill="url(#waveGrad)" />
+    <!-- 柱 3 -->
+    <rect x="223" y="196" width="14" height="120" rx="7" fill="url(#waveGrad)" />
+    <!-- 柱 4 (中央主峰) -->
+    <rect x="249" y="174" width="14" height="164" rx="7" fill="url(#waveGrad)" />
+    <!-- 柱 5 -->
+    <rect x="275" y="196" width="14" height="120" rx="7" fill="url(#waveGrad)" />
+    <!-- 柱 6 -->
+    <rect x="301" y="216" width="14" height="80" rx="7" fill="url(#waveGrad)" />
+    <!-- 柱 7 -->
+    <rect x="327" y="234" width="14" height="44" rx="7" fill="url(#waveGrad)" />
+
+    <!-- 3C. 双侧放射声波弧线 (强化声音传递与听力交互) -->
+    <!-- 内层声波弧 -->
+    <path d="M 156 208 A 95 95 0 0 0 156 304" fill="none" stroke="url(#arcGrad)" stroke-width="6.5" stroke-linecap="round" opacity="0.9" />
+    <path d="M 356 208 A 95 95 0 0 1 356 304" fill="none" stroke="url(#arcGrad)" stroke-width="6.5" stroke-linecap="round" opacity="0.9" />
+
+    <!-- 外层声波弧 -->
+    <path d="M 136 192 A 122 122 0 0 0 136 320" fill="none" stroke="url(#arcGrad)" stroke-width="5" stroke-linecap="round" opacity="0.45" />
+    <path d="M 376 192 A 122 122 0 0 1 376 320" fill="none" stroke="url(#arcGrad)" stroke-width="5" stroke-linecap="round" opacity="0.45" />
+
+    <!-- 3D. 底部代码高亮条带 (纯几何线条模拟 IDE 语法高亮) -->
+    <g transform="translate(0, 362)">
+      <!-- 第一行代码结构 -->
+      <rect x="144" y="0" width="46" height="7" rx="3.5" fill="#38BDF8" opacity="0.85" />
+      <rect x="198" y="0" width="102" height="7" rx="3.5" fill="rgba(255, 255, 255, 0.22)" />
+      <rect x="308" y="0" width="60" height="7" rx="3.5" fill="#10B981" opacity="0.85" />
+
+      <!-- 第二行代码结构 -->
+      <rect x="164" y="16" width="76" height="7" rx="3.5" fill="#818CF8" opacity="0.75" />
+      <rect x="248" y="16" width="100" height="7" rx="3.5" fill="rgba(56, 189, 248, 0.45)" />
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,183 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 375 812" width="375" height="812" style="background:#FFFFFF; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'PingFang SC', 'Microsoft YaHei', sans-serif;">
+  <defs>
+    <!-- 弹窗柔和阴影 -->
+    <filter id="modal-shadow" x="-10%" y="-10%" width="120%" height="120%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="-6" stdDeviation="16" flood-color="#0F172A" flood-opacity="0.08" />
+    </filter>
+    <!-- 页面轻阴影 -->
+    <filter id="card-shadow" x="-5%" y="-5%" width="110%" height="115%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#0F172A" flood-opacity="0.04" />
+    </filter>
+  </defs>
+
+  <!-- 页面底色：采用纯净阅读纸张白，移除压抑的双层嵌套边框 -->
+  <rect width="375" height="812" fill="#FFFFFF"/>
+
+  <!-- ==================== 1. 顶部状态栏 & 阅读器导航栏 (0 ~ 88px) ==================== -->
+  <g id="reader-nav">
+    <!-- 状态栏 -->
+    <text x="24" y="32" font-size="12" fill="#64748B" font-weight="500">9:41</text>
+    <rect x="318" y="22" width="22" height="11" rx="3" fill="none" stroke="#64748B" stroke-width="1.5"/>
+    <rect x="320" y="24" width="15" height="7" rx="1.5" fill="#64748B"/>
+    <circle cx="304" cy="27" r="3" fill="#64748B"/>
+
+    <!-- 返回按钮 -->
+    <g transform="translate(16, 46)" cursor="pointer">
+      <rect width="32" height="32" rx="8" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
+      <path d="M19 10L13 16L19 22" stroke="#334155" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+
+    <!-- 阅读器工具：字号调节 & 来源 -->
+    <g transform="translate(60, 48)">
+      <rect x="0" y="0" width="108" height="28" rx="6" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
+      <text x="54" y="18" font-size="11" font-weight="600" fill="#475569" text-anchor="middle">MDN · 官方文档</text>
+    </g>
+
+    <!-- 字号切换小工具 (A- / A+) -->
+    <g transform="translate(178, 48)" cursor="pointer">
+      <rect width="52" height="28" rx="6" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
+      <text x="18" y="18" font-size="11" font-weight="600" fill="#64748B">A</text>
+      <text x="32" y="18" font-size="13" font-weight="700" fill="#0F172A">A</text>
+    </g>
+
+    <!-- 微信小程序原生胶囊 -->
+    <rect x="282" y="46" width="80" height="30" rx="15" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1"/>
+    <circle cx="305" cy="61" r="3.5" fill="#64748B"/>
+    <circle cx="312" cy="61" r="1.5" fill="#94A3B8"/>
+    <circle cx="337" cy="61" r="5" fill="none" stroke="#64748B" stroke-width="1.5"/>
+
+    <line x1="0" y1="88" x2="375" y2="88" stroke="#F1F5F9" stroke-width="1"/>
+  </g>
+
+  <!-- ==================== 2. 大呼吸感技术文章正文排版 (108 ~ 490px) ==================== -->
+  <g id="article-flow" transform="translate(24, 108)">
+    
+    <!-- 文章主标题 (大字号、通透层次) -->
+    <text x="0" y="24" font-size="20" font-weight="800" fill="#0F172A" letter-spacing="-0.3">
+      Understanding TCP Handshake
+    </text>
+
+    <!-- 辅助阅读信息 (字数、预估耗时、分类) -->
+    <g transform="translate(0, 38)">
+      <text x="0" y="14" font-size="12" fill="#94A3B8">3 分钟精读 · 185 词 · 计算机网络核心通识</text>
+    </g>
+
+    <line x1="0" y1="64" x2="327" y2="64" stroke="#F1F5F9" stroke-width="1"/>
+
+    <!-- 正文段落 1：舒适的大行距 (Line-height: 28px, Font-size: 15px) -->
+    <g transform="translate(0, 94)" font-size="15" letter-spacing="0.2">
+      <text x="0" y="0" fill="#334155">In modern computer networking, reliable</text>
+      <text x="0" y="28" fill="#334155">communication begins with establishing</text>
+      <text x="0" y="56" fill="#334155">a stable session between two endpoints.</text>
+    </g>
+
+    <!-- 正文段落 2：段落间距 32px，完全杜绝拥挤感 -->
+    <g transform="translate(0, 202)" font-size="15" letter-spacing="0.2">
+      <text x="0" y="0" fill="#334155">The client first transmits a SYN packet</text>
+      
+      <!-- 行 2：包含术语提示 synchronize -->
+      <text x="0" y="28" fill="#334155">to </text>
+      <text x="22" y="28" fill="#0F172A" font-weight="600">synchronize</text>
+      <line x1="22" y1="31" x2="114" y2="31" stroke="#94A3B8" stroke-width="1" stroke-dasharray="3 2"/>
+      <text x="118" y="28" fill="#334155"> the sequence numbers.</text>
+
+      <!-- 行 3：被点击选中的核心技术词 idempotent (清晰舒适的高亮反馈) -->
+      <text x="0" y="56" fill="#334155">To prevent duplicate connections, the</text>
+      
+      <text x="0" y="84" fill="#334155">handshake requires </text>
+      <!-- 高亮胶囊底色 -->
+      <rect x="144" y="66" width="94" height="24" rx="4" fill="#0F172A"/>
+      <text x="149" y="83" font-weight="700" fill="#FFFFFF">idempotent</text>
+      <text x="242" y="84" fill="#334155"> packet</text>
+
+      <text x="0" y="112" fill="#334155">handling on the server side.</text>
+    </g>
+
+    <!-- 视觉提示文案 -->
+    <g transform="translate(0, 346)">
+      <rect width="327" height="32" rx="6" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
+      <text x="163" y="20" font-size="11" fill="#64748B" text-anchor="middle">💡 点击文章任意单词查看专业释义，点词即可加入生词本</text>
+    </g>
+  </g>
+
+  <!-- ==================== 3. 极浅半透明遮罩蒙层 (不过度发暗，保持整洁) ==================== -->
+  <rect x="0" y="0" width="375" height="528" fill="#0F172A" opacity="0.12"/>
+
+  <!-- ==================== 4. 底部半屏查词抽屉弹窗 (BottomSheet, 510 ~ 728px) ==================== -->
+  <!-- 抽屉高度控制在 218px，留出上方 70% 的面积给文章上下文，视线完全不压抑 -->
+  <g id="lookup-drawer" transform="translate(0, 510)" filter="url(#modal-shadow)">
+    <!-- 弹窗纯白卡片面板 -->
+    <path d="M0 16C0 7.16344 7.16344 0 16 0H359C367.837 0 375 7.16344 375 16V218H0V16Z" fill="#FFFFFF"/>
+    
+    <!-- 顶部居中细手柄条 -->
+    <rect x="170" y="8" width="36" height="4" rx="2" fill="#E2E8F0"/>
+
+    <!-- 弹窗内容区 -->
+    <g transform="translate(20, 24)">
+      
+      <!-- 1) 单词名称 + 音标 + 发音喇叭 -->
+      <text x="0" y="24" font-size="22" font-weight="800" fill="#0F172A" font-family="'JetBrains Mono', monospace">idempotent</text>
+      <text x="156" y="22" font-size="12" fill="#64748B" font-family="'JetBrains Mono', monospace">/ˌaɪ.dəmˈpoʊ.tənt/</text>
+      
+      <!-- 快捷发音按钮 -->
+      <g transform="translate(285, 4)" cursor="pointer">
+        <circle cx="14" cy="14" r="14" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
+        <path d="M10 11V17L14 17L18 20V8L14 11H10Z" fill="#334155"/>
+      </g>
+
+      <!-- 2) 计算机第一专属释义 (清爽两行，信息高度凝练) -->
+      <g transform="translate(0, 42)">
+        <rect width="335" height="58" rx="8" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
+        
+        <text x="12" y="24" font-size="14" font-weight="800" fill="#0F172A">【计】幂等的</text>
+        <text x="96" y="24" font-size="12" fill="#475569">操作执行多次与执行一次结果完全相同</text>
+        
+        <text x="12" y="44" font-size="11" fill="#64748B">💡 典型工程语境：HTTP PUT/DELETE · 接口防重 · 消息队列重试</text>
+      </g>
+
+      <!-- 3) 主行动操作按钮 (大面积黑色按钮，一键加生词本) -->
+      <g transform="translate(0, 114)" cursor="pointer">
+        <rect width="335" height="44" rx="8" fill="#0F172A"/>
+        <text x="167" y="27" font-size="14" font-weight="700" fill="#FFFFFF" text-anchor="middle">+ 加入生词本 (纳入今晚复习队列)</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- ==================== 5. 底部 TabBar 导航 (H: 84) ==================== -->
+  <g id="tab-bar" transform="translate(0, 728)">
+    <rect width="375" height="84" fill="#FFFFFF"/>
+    <line x1="0" y1="0" x2="375" y2="0" stroke="#E2E8F0" stroke-width="1"/>
+
+    <!-- Tab 1: 学习 -->
+    <g transform="translate(0, 0)">
+      <rect x="37" y="20" width="20" height="18" rx="2" fill="none" stroke="#94A3B8" stroke-width="1.5"/>
+      <text x="47" y="52" font-size="10" font-weight="500" fill="#64748B" text-anchor="middle">学习</text>
+    </g>
+
+    <!-- Tab 2: 阅读 (当前激活态) -->
+    <g transform="translate(94, 0)">
+      <rect x="27" y="10" width="40" height="4" rx="2" fill="#0F172A"/>
+      <rect x="37" y="20" width="20" height="18" rx="2" fill="#0F172A"/>
+      <line x1="41" y1="26" x2="53" y2="26" stroke="#FFFFFF" stroke-width="1.5"/>
+      <line x1="41" y1="31" x2="49" y2="31" stroke="#FFFFFF" stroke-width="1.5"/>
+      <text x="47" y="52" font-size="10" font-weight="700" fill="#0F172A" text-anchor="middle">阅读</text>
+    </g>
+
+    <!-- Tab 3: 生词本 -->
+    <g transform="translate(188, 0)">
+      <rect x="37" y="20" width="20" height="18" rx="2" fill="none" stroke="#94A3B8" stroke-width="1.5"/>
+      <text x="47" y="34" font-size="11" font-weight="700" fill="#94A3B8" text-anchor="middle">A</text>
+      <circle cx="55" cy="20" r="3" fill="#E11D48"/>
+      <text x="47" y="52" font-size="10" font-weight="500" fill="#64748B" text-anchor="middle">生词本</text>
+    </g>
+
+    <!-- Tab 4: 我的 -->
+    <g transform="translate(281, 0)">
+      <circle cx="47" cy="26" r="6" fill="none" stroke="#94A3B8" stroke-width="1.5"/>
+      <path d="M37,39 C37,34 42,34 47,34 C52,34 57,34 57,39" fill="none" stroke="#94A3B8" stroke-width="1.5"/>
+      <text x="47" y="52" font-size="10" font-weight="500" fill="#64748B" text-anchor="middle">我的</text>
+    </g>
+
+    <rect x="120" y="70" width="135" height="4" rx="2" fill="#CBD5E1"/>
+  </g>
+</svg>
